@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Allow: /casting
+Disallow: /admin
+
+Sitemap: https://grupofarol.com/sitemap.xml

@@ -1,0 +1,89 @@
+@font-face {
+  font-family: "Agharti";
+  src: url("/fonts/Agharti-DemiSemiCondensed.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Agharti Regular";
+  src: url("/fonts/Agharti-Regular.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Agharti Light Semi Condensed";
+  src: url("/fonts/Agharti-LightSemiCondensed.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Agharti Bold Condensed";
+  src: url("/fonts/Agharti-BoldCondensed.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Agharti Bold Semi Condensed";
+  src: url("/fonts/Agharti-BoldSemiCondensed.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Agharti Black Ultra Wide";
+  src: url("/fonts/Agharti-BlackUltraWide.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Agharti Demi";
+  src: url("/fonts/Agharti-Demi.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Agharti Demi Ultra Condensed";
+  src: url("/fonts/Agharti-DemiUltraCondensed.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Agharti Thin Semi Condensed";
+  src: url("/fonts/Agharti-ThinSemiCondensed.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Casual Human";
+  src: url("/fonts/CasualHuman.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Casual Human";
+  src: url("/fonts/CasualHuman-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Foun";
+  src: url("/fonts/Foun.woff2") format("woff2");
+  font-display: swap;
+}
+
+:root {
+  --font-agharti: "Agharti", sans-serif;
+  --font-agharti-regular: "Agharti Regular", sans-serif;
+  --font-agharti-lsc: "Agharti Light Semi Condensed", sans-serif;
+  --font-agharti-bc: "Agharti Bold Condensed", sans-serif;
+  --font-agharti-bsc: "Agharti Bold Semi Condensed", sans-serif;
+  --font-agharti-buw: "Agharti Black Ultra Wide", sans-serif;
+  --font-agharti-demi: "Agharti Demi", sans-serif;
+  --font-agharti-duc: "Agharti Demi Ultra Condensed", sans-serif;
+  --font-agharti-tsc: "Agharti Thin Semi Condensed", sans-serif;
+  --font-casual-human: "Casual Human", sans-serif;
+  --font-foun: "Foun", sans-serif;
+  --font-poppins: "Poppins", sans-serif;
+  --font-pt-serif: "PT Serif", serif;
+}
