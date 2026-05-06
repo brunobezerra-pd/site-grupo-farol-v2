@@ -54,14 +54,14 @@ export const TalentShowcaseCard = forwardRef<HTMLElement, TalentShowcaseCardProp
     return (
       <article
         ref={ref}
-        className={`relative flex shrink-0 flex-col gap-[5.29cqw] rounded-[24px] bg-[#fff2e7] p-[0.714%] ${className}`}
+        className={`relative flex shrink-0 flex-col gap-[var(--talent-card-gap,5.29cqw)] rounded-[24px] bg-[#fff2e7] p-[var(--talent-card-pad,0.714%)] ${className}`}
         style={{ containerType: "inline-size" }}
         onMouseEnter={() => onHoverChange?.(true)}
         onMouseLeave={() => onHoverChange?.(false)}
         onFocus={() => onHoverChange?.(true)}
         onBlur={() => onHoverChange?.(false)}
       >
-        <div className="relative aspect-[473.917/390] w-full overflow-hidden rounded-[16px] bg-white p-[4.82%]">
+        <div className="relative aspect-[473.917/390] w-full overflow-hidden rounded-[16px] bg-white p-[var(--talent-card-image-pad,4.82%)]">
           {talent.photo_url ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -83,10 +83,12 @@ export const TalentShowcaseCard = forwardRef<HTMLElement, TalentShowcaseCardProp
           />
         </div>
 
-        <div className="flex w-full flex-col gap-[5.29cqw] px-[4.82%] pb-[8.03%]">
+        <div className="flex w-full flex-col gap-[var(--talent-card-gap,5.29cqw)] px-[var(--talent-card-image-pad,4.82%)] pb-[var(--talent-card-content-pb,8.03%)]">
           <h3
             className="w-full truncate font-agharti-bsc-display uppercase leading-none text-[#1a1a1a]"
-            style={{ fontSize: "clamp(3.25rem, 19.25cqw, 6rem)" }}
+            style={{
+              fontSize: "var(--talent-name-size, clamp(3.25rem, 19.25cqw, 6rem))",
+            }}
           >
             {name}
           </h3>
@@ -97,16 +99,16 @@ export const TalentShowcaseCard = forwardRef<HTMLElement, TalentShowcaseCardProp
         </div>
 
         <div
-          className="absolute flex aspect-square w-[30.126%] items-center justify-center rounded-full p-[2.01%]"
+          className="absolute flex aspect-square w-[var(--talent-stamp-size,30.126%)] items-center justify-center rounded-full p-[var(--talent-stamp-pad,2.01%)]"
           style={{
             backgroundColor: STAMP_COLORS[index % STAMP_COLORS.length],
-            left: "84.96%",
-            top: "-9.41%",
+            left: "var(--talent-stamp-left, 84.96%)",
+            top: "var(--talent-stamp-top, -9.41%)",
           }}
         >
           <p
             className="w-[124%] max-w-none rotate-[-20.07deg] whitespace-pre-line text-center font-agharti-duc-display leading-[0.82] text-[#1a1a1a]"
-            style={{ fontSize: categorySize }}
+            style={{ fontSize: `var(--talent-stamp-font-size, ${categorySize})` }}
           >
             {category}
           </p>
@@ -127,12 +129,12 @@ function SocialHandle({
 
   return (
     <div className="flex min-w-0 flex-1 items-center gap-2">
-      <span className="flex size-[7.84cqw] max-h-[39.043px] max-w-[39.043px] min-h-6 min-w-6 shrink-0 items-center justify-center rounded-full bg-[#1a1a1a] text-[#fff2e7]">
+      <span className="flex size-[var(--talent-social-icon-size,7.84cqw)] max-h-[39.043px] max-w-[39.043px] min-h-6 min-w-6 shrink-0 items-center justify-center rounded-full bg-[#1a1a1a] text-[#fff2e7]">
         <Icon className="size-[58%]" strokeWidth={2.5} />
       </span>
       <span
         className="truncate font-heading italic leading-normal text-[#1a1a1a]"
-        style={{ fontSize: "clamp(0.75rem, 3.73cqw, 1.162rem)" }}
+        style={{ fontSize: "var(--talent-handle-size, clamp(0.75rem, 3.73cqw, 1.162rem))" }}
       >
         {handle}
       </span>

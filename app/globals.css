@@ -12,6 +12,7 @@
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --font-heading: var(--font-pt-serif);
   --font-agharti-display: var(--font-agharti);
+  --font-agharti-black-display: var(--font-agharti-black);
   --font-agharti-regular-display: var(--font-agharti-regular);
   --font-agharti-lsc-display: var(--font-agharti-lsc);
   --font-agharti-bc-display: var(--font-agharti-bc);
@@ -138,6 +139,49 @@
   }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
+  }
+  a,
+  button {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: default;
+  }
+}
+
+@layer components {
+  .public-button-lift {
+    cursor: pointer;
+    transition:
+      translate 180ms linear,
+      transform 180ms linear,
+      opacity 180ms linear,
+      background-color 180ms linear,
+      color 180ms linear,
+      box-shadow 180ms linear;
+  }
+
+  .public-button-lift:hover {
+    translate: 0 -5px;
+  }
+
+  .public-button-lift:disabled {
+    translate: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .public-button-lift {
+    transition: none;
+  }
+
+  .public-button-lift:hover {
+    translate: 0 0;
   }
 }
 

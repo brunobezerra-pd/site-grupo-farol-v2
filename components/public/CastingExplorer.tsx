@@ -154,7 +154,7 @@ function CategoryButton({
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-full px-6 pb-2 pt-1.5 font-agharti-regular-display text-3xl leading-none transition duration-200 hover:-translate-y-0.5 ${
+      className={`public-button-lift rounded-full px-6 pb-2 pt-1.5 font-agharti-regular-display text-3xl leading-none ${
         active
           ? "bg-[#1a1a1a] text-[#fff2e7]"
           : "border-2 border-[#1a1a1a] text-[#1a1a1a]"
@@ -182,7 +182,7 @@ function PaginationButton({
       aria-label={label}
       disabled={disabled}
       onClick={onClick}
-      className="flex size-12 items-center justify-center rounded-full bg-[#1a1a1a] text-[#fff2e7] transition duration-200 hover:scale-105 disabled:pointer-events-none disabled:opacity-30"
+      className="public-button-lift flex size-12 items-center justify-center rounded-full bg-[#1a1a1a] text-[#fff2e7] hover:scale-105 disabled:pointer-events-none disabled:opacity-30"
     >
       {children}
     </button>

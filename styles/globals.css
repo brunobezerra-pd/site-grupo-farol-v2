@@ -5,6 +5,12 @@
 }
 
 @font-face {
+  font-family: "Agharti Black";
+  src: url("/fonts/Agharti-Black.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
   font-family: "Agharti Regular";
   src: url("/fonts/Agharti-Regular.woff2") format("woff2");
   font-display: swap;
@@ -74,6 +80,7 @@
 
 :root {
   --font-agharti: "Agharti", sans-serif;
+  --font-agharti-black: "Agharti Black", sans-serif;
   --font-agharti-regular: "Agharti Regular", sans-serif;
   --font-agharti-lsc: "Agharti Light Semi Condensed", sans-serif;
   --font-agharti-bc: "Agharti Bold Condensed", sans-serif;
