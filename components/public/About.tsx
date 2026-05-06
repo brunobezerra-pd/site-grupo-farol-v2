@@ -102,9 +102,7 @@ export function About({ imageUrl }: AboutProps) {
             {STATS.map((stat) => (
               <div
                 key={stat.value + stat.color}
-                className={`flex w-full shrink-0 items-center justify-center rounded-[24px] px-[12px] py-[30px] md:max-xl:aspect-[199/269] md:max-xl:h-[12.609rem] md:max-xl:w-[9.328rem] md:max-xl:px-[0.75rem] md:max-xl:py-[1.875rem] xl:aspect-[199/269] xl:w-[27.91%] xl:justify-start xl:px-[2.244%] xl:py-[5.61%] ${
-                  stat.value === "+200" ? "h-[126px]" : "h-[150px]"
-                }`}
+                className="flex h-[150px] w-full shrink-0 items-center justify-center rounded-[24px] px-[12px] py-[30px] md:max-xl:aspect-[199/269] md:max-xl:h-[12.609rem] md:max-xl:w-[9.328rem] md:max-xl:px-[0.75rem] md:max-xl:py-[1.875rem] xl:aspect-[199/269] xl:w-[27.91%] xl:justify-start xl:px-[2.244%] xl:py-[5.61%]"
                 style={{ backgroundColor: stat.color }}
               >
                 <div className="flex w-auto items-center justify-center gap-[1.172rem] whitespace-nowrap text-center leading-none text-[#1a1a1a] md:max-xl:w-full md:max-xl:flex-col xl:w-full xl:flex-col xl:gap-[3.506cqw]">

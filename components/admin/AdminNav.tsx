@@ -1,52 +1,52 @@
 "use client";
 
-import { useState } from "react";
 import {
   FileImageIcon,
   FileTextIcon,
   HomeIcon,
   LogOutIcon,
-  MenuIcon,
   MousePointerClickIcon,
   SearchIcon,
   ShieldIcon,
   SparklesIcon,
   UsersIcon,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import * as React from "react";
 
-import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarRail,
+} from "@/components/ui/sidebar";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/admin/hero", label: "Hero", icon: HomeIcon },
   { href: "/admin/talents", label: "Talentos", icon: UsersIcon },
-  { href: "/admin/partners", label: "Partners", icon: SparklesIcon },
+  { href: "/admin/partners", label: "Parceiros", icon: SparklesIcon },
   { href: "/admin/images", label: "Imagens", icon: FileImageIcon },
   { href: "/admin/cta", label: "CTA", icon: MousePointerClickIcon },
   { href: "/admin/seo", label: "SEO", icon: SearchIcon },
   { href: "/admin/scripts", label: "Scripts", icon: FileTextIcon },
-  { href: "/admin/users", label: "Users", icon: ShieldIcon },
+  { href: "/admin/users", label: "Usuários", icon: ShieldIcon },
 ];
 
-type AdminNavProps = {
+type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
   userEmail: string;
+  userName?: string;
 };
 
-export function AdminNav({ userEmail }: AdminNavProps) {
+export function AppSidebar({ userEmail, userName, ...props }: AppSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
-  const [isSigningOut, setIsSigningOut] = useState(false);
+  const [isSigningOut, setIsSigningOut] = React.useState(false);
 
   async function handleSignOut() {
     setIsSigningOut(true);
@@ -56,85 +56,87 @@ export function AdminNav({ userEmail }: AdminNavProps) {
     router.refresh();
   }
 
-  const navList = (
-    <nav className="flex flex-col gap-1">
-      {navItems.map((item) => {
-        const Icon = item.icon;
-        const isActive =
-          pathname === item.href || pathname.startsWith(`${item.href}/`);
-
-        return (
-          <Link
-            key={item.href}
-            href={item.href}
-            onClick={() => setIsOpen(false)}
-            className={cn(
-              "flex h-9 items-center gap-2 rounded-lg px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground",
-              isActive && "bg-muted text-foreground",
-            )}
-          >
-            <Icon data-icon="inline-start" />
-            {item.label}
-          </Link>
-        );
-      })}
-    </nav>
-  );
-
-  const footer = (
-    <div className="mt-auto flex flex-col gap-3 border-t pt-4">
-      <div className="min-w-0 px-3">
-        <p className="truncate text-sm font-medium">
-          {userEmail || "Carregando..."}
-        </p>
-      </div>
-      <Button
-        type="button"
-        variant="outline"
-        onClick={handleSignOut}
-        disabled={isSigningOut}
-        className="w-full"
-      >
-        <LogOutIcon data-icon="inline-start" />
-        {isSigningOut ? "Saindo..." : "Sair"}
-      </Button>
-    </div>
-  );
+  const initials = userEmail ? userEmail.substring(0, 2).toUpperCase() : "GF";
+  const displayName = userName || "Admin";
 
   return (
-    <>
-      <aside className="fixed inset-y-0 left-0 hidden w-60 flex-col border-r bg-background p-4 md:flex">
-        <Link href="/admin/hero" className="mb-6 px-3 font-heading text-lg">
-          Grupo Farol
-        </Link>
-        {navList}
-        {footer}
-      </aside>
-
-      <header className="sticky top-0 z-40 flex h-14 items-center justify-between border-b bg-background/95 px-4 backdrop-blur md:hidden">
-        <Link href="/admin/hero" className="font-heading text-base">
-          Grupo Farol
-        </Link>
-        <Sheet open={isOpen} onOpenChange={setIsOpen}>
-          <SheetTrigger
-            render={
-              <Button type="button" variant="ghost" size="icon">
-                <MenuIcon />
-                <span className="sr-only">Abrir navegação</span>
-              </Button>
-            }
+    <Sidebar collapsible="icon" {...props}>
+      {/* Logo */}
+      <SidebarHeader className="p-4">
+        <Link
+          href="/admin/hero"
+          className="group-data-[collapsible=icon]:hidden block"
+        >
+          <Image
+            src="/LogoGrupoFarol--dark.svg"
+            alt="Grupo Farol"
+            width={160}
+            height={40}
+            className="h-8 w-auto"
+            priority
           />
-          <SheetContent side="left">
-            <SheetHeader>
-              <SheetTitle>Grupo Farol</SheetTitle>
-            </SheetHeader>
-            <div className="flex min-h-0 flex-1 flex-col gap-4 px-4 pb-4">
-              {navList}
-              {footer}
-            </div>
-          </SheetContent>
-        </Sheet>
-      </header>
-    </>
+        </Link>
+      </SidebarHeader>
+
+      {/* Nav */}
+      <SidebarContent>
+        <nav className="flex flex-col gap-0.5 px-3 py-2 group-data-[collapsible=icon]:px-2">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive =
+              pathname === item.href || pathname.startsWith(`${item.href}/`);
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "flex items-center gap-2.5 rounded-lg text-sm transition-all duration-150",
+                  "group-data-[collapsible=icon]:size-9 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-0",
+                  isActive
+                    ? "border-l-2 border-primary bg-[#1c1c1c] pl-[10px] pr-3 py-2 text-white group-data-[collapsible=icon]:border-l-0 group-data-[collapsible=icon]:bg-[#1c1c1c]"
+                    : "px-3 py-2 text-[#666] hover:bg-[#161616] hover:text-[#999]",
+                )}
+              >
+                <Icon className="size-4 shrink-0" />
+                <span className="group-data-[collapsible=icon]:hidden">
+                  {item.label}
+                </span>
+              </Link>
+            );
+          })}
+        </nav>
+      </SidebarContent>
+
+      {/* Footer — user row */}
+      <SidebarFooter className="border-t border-[#222] p-0">
+        <div className="flex items-center gap-2.5 px-3 py-3 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-2">
+          <Avatar className="size-8 shrink-0 rounded-full">
+            <AvatarFallback className="rounded-full bg-[#222] text-xs text-white">
+              {initials}
+            </AvatarFallback>
+          </Avatar>
+
+          <div className="grid min-w-0 flex-1 leading-tight group-data-[collapsible=icon]:hidden">
+            <span className="truncate text-[13px] font-medium text-white">
+              {displayName}
+            </span>
+            <span className="truncate text-[11px] text-[#555]">{userEmail}</span>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleSignOut}
+            disabled={isSigningOut}
+            aria-label="Sair"
+            className="shrink-0 rounded-md p-1.5 text-[#555] transition-all duration-150 hover:bg-[#222] hover:text-white disabled:opacity-50 group-data-[collapsible=icon]:hidden"
+          >
+            <LogOutIcon className="size-4" />
+          </button>
+        </div>
+      </SidebarFooter>
+
+      <SidebarRail />
+    </Sidebar>
   );
 }

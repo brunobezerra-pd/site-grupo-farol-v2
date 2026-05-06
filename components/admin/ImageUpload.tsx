@@ -11,12 +11,20 @@ type ImageUploadProps = {
   bucket: string;
   currentUrl?: string;
   onUpload: (url: string) => void;
+  square?: boolean;
+  buttonLabel?: string;
+  hintText?: string;
+  placeholder?: React.ReactNode;
 };
 
 export function ImageUpload({
   bucket,
   currentUrl,
   onUpload,
+  square = false,
+  buttonLabel = "Enviar imagem",
+  hintText,
+  placeholder,
 }: ImageUploadProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -54,9 +62,17 @@ export function ImageUpload({
     onUpload(data.publicUrl);
   }
 
+  const defaultPlaceholder = placeholder ?? (
+    <ImageIcon className="text-muted-foreground" />
+  );
+
   return (
     <div className="flex flex-col gap-3">
-      <div className="relative flex aspect-[1.91/1] w-full items-center justify-center overflow-hidden rounded-lg border bg-muted">
+      <div
+        className={`relative flex w-full items-center justify-center overflow-hidden rounded-lg border bg-muted ${
+          square ? "aspect-square" : "aspect-[1.91/1]"
+        }`}
+      >
         {currentUrl ? (
           <Image
             src={currentUrl}
@@ -67,7 +83,7 @@ export function ImageUpload({
             className="object-cover"
           />
         ) : (
-          <ImageIcon className="text-muted-foreground" />
+          defaultPlaceholder
         )}
       </div>
       <input
@@ -84,8 +100,11 @@ export function ImageUpload({
         onClick={() => inputRef.current?.click()}
       >
         <UploadIcon data-icon="inline-start" />
-        {isUploading ? "Enviando..." : "Enviar imagem"}
+        {isUploading ? "Enviando..." : buttonLabel}
       </Button>
+      {hintText && (
+        <p className="text-center text-xs text-muted-foreground">{hintText}</p>
+      )}
       {error ? <p className="text-sm text-destructive">{error}</p> : null}
     </div>
   );

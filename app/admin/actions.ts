@@ -3,7 +3,7 @@
 import { setSetting, setSettings } from "@/lib/settings";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createPartner, deletePartner, updatePartnerSortOrder } from "@/lib/partners";
-import { createTalent, deleteTalent, updateTalent } from "@/lib/talents";
+import { createTalent, deleteTalent, getCategories, updateTalent } from "@/lib/talents";
 import { updateSlot } from "@/lib/image-slots";
 import type { ImageSlot, TalentInsert, TalentUpdate } from "@/types";
 
@@ -103,4 +103,8 @@ export async function importTalentPhoto(photoUrl: string, talentName: string) {
   } catch {
     return null;
   }
+}
+
+export async function getCategoriesAction(): Promise<string[]> {
+  return getCategories();
 }
