@@ -121,7 +121,7 @@ export function Hero({ buttonEnabled, buttonLabel, buttonUrl }: HeroProps) {
         <div className="flex min-w-0 flex-1 flex-col items-center xl:items-end">
           <div className="flex w-full flex-col items-center gap-[32px] pb-[32px] xl:w-auto xl:items-end xl:pb-[72px]">
             <h1 className="w-full text-center font-agharti-display uppercase leading-none tracking-normal xl:flex xl:h-[474px] xl:w-[1066px] xl:flex-col xl:justify-center xl:text-right">
-              <span className="block text-[3rem] leading-[1.026] md:max-xl:text-[4rem] xl:text-[clamp(4rem,5vw,6rem)] xl:leading-none">
+              <span className="block text-[2.8rem] leading-[1.026] md:max-xl:text-[4rem] xl:text-[clamp(4rem,5vw,6rem)] xl:leading-none">
                 A maior agência de creators da
               </span>
               <span className="block text-[6rem] leading-[1.026] md:max-xl:text-[11rem] xl:text-[clamp(12.333rem,15.417vw,18.5rem)] xl:leading-none">
