@@ -155,7 +155,7 @@ export function TalentsMarquee({ talents }: TalentsMarqueeProps) {
       className="relative overflow-hidden rounded-[48px] bg-[#b9323b] px-[32px] py-[72px] text-[#1a1a1a] md:max-xl:px-[4rem] md:max-xl:py-[4.5rem] xl:px-[120px]"
     >
       <div className="flex w-full flex-col items-start gap-[72px] xl:gap-[105px]">
-        <h2 className="w-full text-center font-agharti-regular-display text-[7rem] leading-normal text-[#1a1a1a] md:max-xl:text-[clamp(10rem,25.521vw,12.25rem)] xl:text-[clamp(12.667rem,15.833vw,19rem)]">
+        <h2 className="w-full text-center font-agharti-regular-display text-[5rem] leading-normal text-[#1a1a1a] md:max-xl:text-[clamp(10rem,25.521vw,12.25rem)] xl:text-[clamp(12.667rem,15.833vw,19rem)]">
           Nosso Casting
         </h2>
 

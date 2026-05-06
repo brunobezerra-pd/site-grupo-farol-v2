@@ -25,7 +25,7 @@ export function Footer({ scriptFooter }: FooterProps) {
               alt="Grupo Farol"
               className="h-[3.125rem] w-[9.881rem]"
             />
-            <p className="whitespace-nowrap text-center font-[var(--font-poppins)] text-[1rem] leading-[1.82] text-white md:max-xl:text-[1.125rem] xl:text-[clamp(1.25rem,1.25vw,1.5rem)]">
+            <p className="max-w-[22rem] whitespace-normal text-center font-[var(--font-poppins)] text-[1rem] leading-[1.82] text-white md:max-xl:max-w-none md:max-xl:whitespace-nowrap md:max-xl:text-[1.125rem] xl:max-w-none xl:whitespace-nowrap xl:text-[clamp(1.25rem,1.25vw,1.5rem)]">
               ©2026 Grupo Farol. Todos os direitos reservados.
             </p>
           </div>

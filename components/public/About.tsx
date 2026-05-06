@@ -53,7 +53,7 @@ export function About({ imageUrl }: AboutProps) {
                 </span>
                 <span className="ml-[1rem] h-[3px] w-[min(19.875rem,calc(100%-6.5rem))] bg-[#1a1a1a] md:max-xl:ml-[1.75rem] md:max-xl:w-[min(30.0625rem,calc(100%-10.25rem))] xl:ml-[4.375rem] xl:w-[clamp(140px,calc(100%-17.625rem),580px)]" />
               </span>
-              <span className="font-agharti-bc-display text-[7.25rem] md:max-xl:text-[clamp(9.5rem,23.438vw,11.25rem)] xl:text-[clamp(11rem,13.75vw,16.5rem)]">
+              <span className="font-agharti-bc-display text-[6.25rem] md:max-xl:text-[clamp(9.5rem,23.438vw,11.25rem)] xl:text-[clamp(11rem,13.75vw,16.5rem)]">
                 GRUPO FAROL
               </span>
             </h2>

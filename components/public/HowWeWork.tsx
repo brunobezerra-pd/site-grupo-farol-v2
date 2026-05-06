@@ -95,7 +95,7 @@ export function HowWeWork() {
         <div className="flex w-full flex-col items-center">
           <div className="relative z-10 mb-[-2rem] flex h-[3.185rem] w-full items-center justify-center md:max-xl:mb-[-2.875rem] md:max-xl:h-[3.555rem] xl:mb-[-5.25rem] xl:h-[6.77rem]">
             <p
-              className="w-full rotate-[1.51deg] text-center font-casual-human-display text-[2.5rem] leading-none xl:text-[clamp(2.667rem,3.333vw,4rem)]"
+              className="w-full rotate-[1.51deg] text-center font-casual-human-display text-[clamp(2rem,8.5vw,2.5rem)] leading-none xl:text-[clamp(2.667rem,3.333vw,4rem)]"
             >
               COMO TRABaLHaMOS
             </p>
@@ -104,10 +104,10 @@ export function HowWeWork() {
           <div className="relative flex w-full items-center justify-center">
             <div
               aria-hidden="true"
-              className="absolute left-1/2 top-[2.153rem] h-[6.57rem] w-[24.889rem] max-w-none -translate-x-1/2 rotate-[0.9deg] bg-[#e5a545] md:max-xl:top-[3.293rem] md:max-xl:h-[10.24rem] md:max-xl:w-[38.793rem] xl:top-[23.7%] xl:h-[14.651rem] xl:w-[55.499rem] xl:max-w-[52.86vw]"
+              className="absolute left-1/2 top-[2.153rem] h-[6.57rem] w-[min(24.889rem,calc(100vw-4rem))] max-w-none -translate-x-1/2 rotate-[0.9deg] bg-[#e5a545] md:max-xl:top-[3.293rem] md:max-xl:h-[10.24rem] md:max-xl:w-[38.793rem] xl:top-[23.7%] xl:h-[14.651rem] xl:w-[55.499rem] xl:max-w-[52.86vw]"
             />
-            <div className="relative flex h-[9.206rem] w-[24.928rem] items-center justify-center md:max-xl:h-[14.094rem] md:max-xl:w-[38.123rem] xl:h-[21.286rem] xl:w-auto">
-              <h2 className="rotate-[2.84deg] whitespace-nowrap text-center font-agharti-demi-display text-[8rem] leading-none md:max-xl:text-[clamp(10rem,25.521vw,12.25rem)] xl:text-[clamp(12.333rem,15.417vw,18.5rem)]">
+            <div className="relative flex h-[9.206rem] w-[min(24.928rem,calc(100vw-4rem))] items-center justify-center md:max-xl:h-[14.094rem] md:max-xl:w-[38.123rem] xl:h-[21.286rem] xl:w-auto">
+              <h2 className="rotate-[2.84deg] whitespace-nowrap text-center font-agharti-demi-display text-[clamp(5.5rem,20vw,6.5rem)] leading-none md:max-xl:text-[clamp(10rem,25.521vw,12.25rem)] xl:text-[clamp(12.333rem,15.417vw,18.5rem)]">
                 COM MARCAS
               </h2>
             </div>

@@ -103,7 +103,7 @@ export function Creators() {
         <div className="flex w-full flex-col items-start gap-[10px]">
           <div className="flex w-full items-center gap-[10px]">
             <div className="flex h-[66.535px] w-[198.891px] shrink-0 rotate-[-1.91deg] items-center justify-center">
-              <p className="whitespace-nowrap text-center font-casual-human-display text-[4rem] leading-[0.94] font-normal xl:text-[clamp(2.667rem,3.333vw,4rem)]">
+              <p className="whitespace-nowrap text-center font-casual-human-display text-[clamp(3.25rem,12vw,4rem)] leading-[0.94] font-normal xl:text-[clamp(2.667rem,3.333vw,4rem)]">
                 MAIS DE
               </p>
             </div>
@@ -121,10 +121,10 @@ export function Creators() {
           </div>
 
           <h2 className="flex w-full flex-col items-center gap-[10px] whitespace-nowrap text-center leading-[0.94] text-[#1a1a1a] xl:flex-row xl:items-end">
-            <span className="font-agharti-regular-display text-[8rem] md:max-xl:text-[clamp(10.5rem,26.563vw,12.75rem)] xl:text-[clamp(12.333rem,15.417vw,18.5rem)]">
+            <span className="font-agharti-regular-display text-[clamp(6rem,22vw,7rem)] md:max-xl:text-[clamp(10.5rem,26.563vw,12.75rem)] xl:text-[clamp(12.333rem,15.417vw,18.5rem)]">
               200 CREATORS.
             </span>
-            <span className="font-agharti-tsc-display text-[6rem] uppercase md:max-xl:text-[clamp(7.75rem,19.792vw,9.5rem)] xl:text-[clamp(7.333rem,9.167vw,11rem)]">
+            <span className="font-agharti-tsc-display text-[clamp(4.25rem,15vw,5rem)] uppercase md:max-xl:text-[clamp(7.75rem,19.792vw,9.5rem)] xl:text-[clamp(7.333rem,9.167vw,11rem)]">
               Centenas de comunidades.
             </span>
           </h2>
