@@ -130,7 +130,7 @@ export function Creators() {
           </h2>
         </div>
 
-        <p className="w-full text-center font-heading text-[2.1875rem] italic leading-normal text-[#1a1a1a] xl:text-[clamp(1.5rem,1.823vw,2.1875rem)]">
+        <p className="w-full text-center font-heading text-[1.5rem] italic leading-normal text-[#1a1a1a] md:text-[2.1875rem] xl:text-[clamp(1.5rem,1.823vw,2.1875rem)]">
           Nosso casting reúne talentos que construíram comunidades reais em
           diferentes <strong className="font-bold">territórios</strong> da
           cultura digital.
@@ -207,7 +207,7 @@ export function Creators() {
           ))}
         </div>
 
-        <div className="flex w-full flex-col items-start gap-[16px] md:hidden">
+        <div className="grid w-full grid-cols-2 gap-[16px] md:hidden">
           {TABLET_BADGES.map((badge) => (
             <div
               key={badge.label}
@@ -215,14 +215,18 @@ export function Creators() {
               style={{ rotate: badge.rotate } as CSSProperties}
             >
               <div
-                className="flex w-full items-center justify-center rounded-[99px] px-[1.28rem] pb-[0.32rem] pt-[0.064rem]"
+                className={`flex w-full items-center justify-center rounded-[99px] ${
+                  badge.size === "large"
+                    ? "px-[1.28rem] pb-[0.32rem] pt-[0.064rem]"
+                    : "px-[1.148rem] pb-[0.287rem] pt-[0.057rem]"
+                }`}
                 style={{ backgroundColor: badge.color }}
               >
                 <p
                   className={`whitespace-nowrap font-agharti-regular-display leading-normal text-[#1a1a1a] ${
                     badge.size === "large"
-                      ? "text-[3.744rem]"
-                      : "text-[3.357rem]"
+                      ? "text-[1.024rem]"
+                      : "text-[0.918rem]"
                   }`}
                 >
                   {badge.label}

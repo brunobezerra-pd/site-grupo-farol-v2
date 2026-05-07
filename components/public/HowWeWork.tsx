@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 
 type WorkCard = {
   stamp: ReactNode;
+  badgeLabel: string;
   color: string;
   body: ReactNode;
 };
@@ -15,6 +16,7 @@ const WORK_CARDS: WorkCard[] = [
         INTELIGÊNCIA
       </>
     ),
+    badgeLabel: "EstRaTÉGiA & INTELIGÊNCIA",
     color: "#d1d362",
     body: (
       <>
@@ -36,6 +38,7 @@ const WORK_CARDS: WorkCard[] = [
         PARCERIAS
       </>
     ),
+    badgeLabel: "CONEXões & PARCERIAS",
     color: "#d96837",
     body: (
       <>
@@ -54,6 +57,7 @@ const WORK_CARDS: WorkCard[] = [
         Especiais
       </>
     ),
+    badgeLabel: "Projetos Especiais",
     color: "#e5a545",
     body: (
       <>
@@ -72,6 +76,7 @@ const WORK_CARDS: WorkCard[] = [
         no Craft
       </>
     ),
+    badgeLabel: "Excelência no Craft",
     color: "#90c2ac",
     body: (
       <>
@@ -123,31 +128,32 @@ export function HowWeWork() {
       </div>
 
       <div
-        className="grid w-full grid-cols-1 gap-y-[6rem] pb-[2rem] pl-[5.125rem] pt-[8rem] md:max-xl:px-[1.75rem] xl:grid-cols-2 xl:gap-x-[clamp(5rem,6.25vw,7.5rem)] xl:gap-y-[clamp(5rem,5vw,6rem)] xl:pl-0 xl:pt-[clamp(6rem,6.667vw,8rem)]"
+        className="grid w-full grid-cols-1 gap-y-[2.5rem] py-[2rem] md:max-xl:gap-y-[6rem] md:max-xl:px-[1.75rem] md:max-xl:pb-[2rem] md:max-xl:pt-[8rem] xl:grid-cols-2 xl:gap-x-[clamp(5rem,6.25vw,7.5rem)] xl:gap-y-[clamp(5rem,5vw,6rem)] xl:pb-[2rem] xl:pl-0 xl:pt-[clamp(6rem,6.667vw,8rem)]"
       >
         {WORK_CARDS.map((card) => (
           <article
             key={`${card.color}-${String(card.stamp)}`}
-            className="relative flex w-[min(21rem,calc(100vw-9.25rem))] max-w-none items-center justify-center justify-self-start rounded-[2.5rem] border-4 border-black bg-[#fff2e7] px-[clamp(3rem,15vw,4.5rem)] pb-[2rem] pt-[3.5rem] md:max-xl:w-[35.8125rem] md:max-xl:justify-self-center md:max-xl:px-[4.5rem] xl:w-full xl:max-w-[45.067rem] xl:px-[clamp(3rem,3.75vw,4.5rem)] xl:pt-[clamp(2rem,2.917vw,3.5rem)]"
+            className="relative flex w-full flex-col items-start justify-start gap-[1rem] justify-self-stretch rounded-[2.5rem] border-4 border-black bg-[#fff2e7] p-[2rem] md:max-xl:w-[35.8125rem] md:max-xl:items-center md:max-xl:justify-center md:max-xl:justify-self-center md:max-xl:px-[4.5rem] md:max-xl:pb-[2rem] md:max-xl:pt-[3.5rem] xl:w-full xl:max-w-[45.067rem] xl:items-center xl:justify-center xl:px-[clamp(3rem,3.75vw,4.5rem)] xl:pb-[2rem] xl:pt-[clamp(2rem,2.917vw,3.5rem)]"
           >
-            <p
-              className="w-full font-[var(--font-poppins)] text-[1.25rem] italic leading-normal md:max-xl:text-[1.67475rem] xl:text-[clamp(1.25rem,1.396vw,1.67475rem)]"
-            >
-              {card.body}
-            </p>
-
             <div
-              className="absolute left-[-5.125rem] top-[-5.1875rem] flex size-[9.375rem] items-center justify-center rounded-full p-[0.625rem] xl:left-[clamp(-5.125rem,-4.271vw,-3.75rem)] xl:top-[clamp(-5.188rem,-4.323vw,-3.75rem)] xl:size-[clamp(7.5rem,7.813vw,9.375rem)]"
+              className="relative flex shrink-0 items-center justify-center rounded-[99px] px-[1rem] pb-[0.5rem] pt-[0.125rem] md:absolute md:left-[-5.125rem] md:top-[-5.1875rem] md:size-[9.375rem] md:rounded-full md:p-[0.625rem] xl:left-[clamp(-5.125rem,-4.271vw,-3.75rem)] xl:top-[clamp(-5.188rem,-4.323vw,-3.75rem)] xl:size-[clamp(7.5rem,7.813vw,9.375rem)]"
               style={{
                 backgroundColor: card.color,
               }}
             >
               <p
-                className="rotate-[-20.07deg] whitespace-nowrap text-center font-agharti-duc-display text-[3rem] leading-[0.951] xl:text-[clamp(2.4rem,2.5vw,3rem)]"
+                className="whitespace-nowrap text-center font-agharti-regular-display text-[1.5rem] leading-normal text-[#1a1a1a] md:rotate-[-20.07deg] md:font-agharti-duc-display md:text-[3rem] md:leading-[0.951] xl:text-[clamp(2.4rem,2.5vw,3rem)]"
               >
-                {card.stamp}
+                <span className="md:hidden">{card.badgeLabel}</span>
+                <span className="hidden md:inline">{card.stamp}</span>
               </p>
             </div>
+
+            <p
+              className="w-full font-[var(--font-poppins)] text-[1rem] italic leading-normal md:max-xl:text-[1.67475rem] xl:text-[clamp(1.25rem,1.396vw,1.67475rem)]"
+            >
+              {card.body}
+            </p>
           </article>
         ))}
       </div>

@@ -29,11 +29,11 @@ function CarouselButton({
       type="button"
       aria-label={direction === "previous" ? "Talento anterior" : "Próximo talento"}
       onClick={onClick}
-      className={`public-button-lift z-10 flex size-[88px] items-center justify-center rounded-full bg-[#fff2e7] text-[#1a1a1a] drop-shadow-[0_6.286px_3.143px_rgba(0,0,0,0.25)] hover:scale-105 ${
+      className={`public-button-lift z-10 flex items-center justify-center rounded-full bg-[#fff2e7] text-[#1a1a1a] hover:scale-105 ${
         direction === "previous" ? "left-[-40px]" : "right-[-40px]"
       } ${className}`}
     >
-      <Icon className="size-[46px]" strokeWidth={3} />
+      <Icon strokeWidth={3} />
     </button>
   );
 }
@@ -152,28 +152,29 @@ export function TalentsMarquee({ talents }: TalentsMarqueeProps) {
   return (
     <section
       id="talentos"
-      className="relative overflow-hidden rounded-[48px] bg-[#b9323b] px-[32px] py-[72px] text-[#1a1a1a] md:max-xl:px-[4rem] md:max-xl:py-[4.5rem] xl:px-[120px]"
+      className="relative overflow-hidden rounded-[48px] bg-[#b9323b] px-[32px] py-[40px] text-[#1a1a1a] md:py-[72px] md:max-xl:px-[4rem] md:max-xl:py-[4.5rem] xl:px-[120px]"
     >
-      <div className="flex w-full flex-col items-start gap-[72px] xl:gap-[105px]">
-        <h2 className="w-full text-center font-agharti-regular-display text-[5rem] leading-normal text-[#1a1a1a] md:max-xl:text-[clamp(10rem,25.521vw,12.25rem)] xl:text-[clamp(12.667rem,15.833vw,19rem)]">
+      <div className="flex w-full flex-col items-start gap-[32px] md:gap-[72px] xl:gap-[105px]">
+        <h2 className="w-full text-center font-agharti-regular-display text-[6rem] leading-normal text-[#1a1a1a] md:max-xl:text-[clamp(10rem,25.521vw,12.25rem)] xl:text-[clamp(12.667rem,15.833vw,19rem)]">
           Nosso Casting
         </h2>
 
         <div className="relative flex w-full flex-col items-center gap-[16px] pb-[32px] md:max-xl:gap-[2rem] md:max-xl:pb-[2rem] xl:block xl:pb-[72px]">
           <div
             ref={viewportRef}
-            className="-mx-[32px] w-[calc(100%+64px)] overflow-hidden pt-[45.29px] md:max-xl:-mx-[4rem] md:max-xl:w-[calc(100%+8rem)] md:max-xl:pt-[3.9375rem] xl:-mx-[120px] xl:-mt-[72px] xl:w-[calc(100%+240px)] xl:pb-[8px] xl:pt-[72px]"
+            className="-mx-[32px] w-[calc(100%+64px)] overflow-hidden pt-[8px] md:max-xl:-mx-[4rem] md:max-xl:w-[calc(100%+8rem)] md:max-xl:pt-[3.9375rem] xl:-mx-[120px] xl:-mt-[72px] xl:w-[calc(100%+240px)] xl:pb-[8px] xl:pt-[72px]"
           >
             <div
               ref={trackRef}
-              className="ml-[32px] flex w-[calc(100%_-_64px)] shrink-0 items-start gap-[56px] will-change-transform md:max-xl:ml-[4rem] md:max-xl:w-[calc(100%_-_8rem)] md:max-xl:gap-[6rem] xl:ml-[120px] xl:w-[calc(100%_-_240px)] xl:gap-[5.543%]"
+              className="ml-[32px] flex w-[calc(100%_-_64px)] shrink-0 items-start gap-[32px] will-change-transform md:max-xl:ml-[4rem] md:max-xl:w-[calc(100%_-_8rem)] md:max-xl:gap-[6rem] xl:ml-[120px] xl:w-[calc(100%_-_240px)] xl:gap-[5.543%]"
             >
               {loopItems.map((talent, index) => (
                 <TalentShowcaseCard
                   key={`${talent.id}-${index}`}
                   talent={talent}
                   index={index % carouselItems.length}
-                  className="w-[22.372rem] max-md:[--talent-card-content-pb:1.797rem] max-md:[--talent-card-gap:1.033rem] max-md:[--talent-card-image-pad:1.078rem] max-md:[--talent-card-pad:0.539rem] max-md:[--talent-handle-size:0.836rem] max-md:[--talent-name-size:4.314rem] max-md:[--talent-social-icon-size:1.754rem] max-md:[--talent-stamp-font-size:2.157rem] max-md:[--talent-stamp-left:84.96%] max-md:[--talent-stamp-pad:0.449rem] max-md:[--talent-stamp-size:30.126%] max-md:[--talent-stamp-top:-9.41%] md:max-xl:w-[31.12rem] xl:w-[29.638%]"
+                  className="w-[22.372rem] max-md:[--talent-card-content-pb:1.797rem] max-md:[--talent-card-gap:1.033rem] max-md:[--talent-card-image-pad:1.078rem] max-md:[--talent-card-pad:0.539rem] max-md:[--talent-handle-size:0.836rem] max-md:[--talent-name-size:2.876rem] max-md:[--talent-social-icon-size:1.078rem] max-md:[--talent-stamp-font-size:2.157rem] max-md:[--talent-stamp-left:84.96%] max-md:[--talent-stamp-pad:0.449rem] max-md:[--talent-stamp-size:30.126%] max-md:[--talent-stamp-top:-9.41%] md:max-xl:w-[31.12rem] xl:w-[29.638%]"
+                  mobileBadge="pill"
                   onHoverChange={setPaused}
                   ref={
                     index === 0
@@ -189,23 +190,23 @@ export function TalentsMarquee({ talents }: TalentsMarqueeProps) {
           <CarouselButton
             direction="previous"
             onClick={() => moveBy(-1)}
-            className="absolute top-1/2 hidden -translate-y-1/2 xl:flex"
+            className="absolute top-1/2 hidden size-[88px] -translate-y-1/2 drop-shadow-[0_6.286px_3.143px_rgba(0,0,0,0.25)] [&_svg]:size-[46px] xl:flex"
           />
           <CarouselButton
             direction="next"
             onClick={() => moveBy(1)}
-            className="absolute top-1/2 hidden -translate-y-1/2 xl:flex"
+            className="absolute top-1/2 hidden size-[88px] -translate-y-1/2 drop-shadow-[0_6.286px_3.143px_rgba(0,0,0,0.25)] [&_svg]:size-[46px] xl:flex"
           />
           <div className="flex w-full items-center justify-between md:max-xl:w-[40rem] xl:hidden">
             <CarouselButton
               direction="previous"
               onClick={() => moveBy(-1)}
-              className="size-[56px] drop-shadow-[0_4px_2px_rgba(0,0,0,0.25)] md:max-xl:size-[88px] md:max-xl:drop-shadow-[0_6.286px_3.143px_rgba(0,0,0,0.25)] [&_svg]:size-[29.815px] md:max-xl:[&_svg]:size-[46px]"
+              className="size-[32px] drop-shadow-[0_2.286px_1.143px_rgba(0,0,0,0.25)] md:max-xl:size-[88px] md:max-xl:drop-shadow-[0_6.286px_3.143px_rgba(0,0,0,0.25)] [&_svg]:size-[17px] md:max-xl:[&_svg]:size-[46px]"
             />
             <CarouselButton
               direction="next"
               onClick={() => moveBy(1)}
-              className="size-[56px] drop-shadow-[0_4px_2px_rgba(0,0,0,0.25)] md:max-xl:size-[88px] md:max-xl:drop-shadow-[0_6.286px_3.143px_rgba(0,0,0,0.25)] [&_svg]:size-[29.815px] md:max-xl:[&_svg]:size-[46px]"
+              className="size-[32px] drop-shadow-[0_2.286px_1.143px_rgba(0,0,0,0.25)] md:max-xl:size-[88px] md:max-xl:drop-shadow-[0_6.286px_3.143px_rgba(0,0,0,0.25)] [&_svg]:size-[17px] md:max-xl:[&_svg]:size-[46px]"
             />
           </div>
         </div>

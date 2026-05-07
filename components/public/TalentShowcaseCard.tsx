@@ -34,10 +34,11 @@ type TalentShowcaseCardProps = {
   index: number;
   className?: string;
   onHoverChange?: (isHovered: boolean) => void;
+  mobileBadge?: "stamp" | "pill";
 };
 
 export const TalentShowcaseCard = forwardRef<HTMLElement, TalentShowcaseCardProps>(
-  function TalentShowcaseCard({ talent, index, className = "", onHoverChange }, ref) {
+  function TalentShowcaseCard({ talent, index, className = "", onHoverChange, mobileBadge }, ref) {
     const categoryParts = getCategoryParts(talent);
     const category = categoryParts.join("\n");
     const categorySize =
@@ -61,7 +62,7 @@ export const TalentShowcaseCard = forwardRef<HTMLElement, TalentShowcaseCardProp
         onFocus={() => onHoverChange?.(true)}
         onBlur={() => onHoverChange?.(false)}
       >
-        <div className="relative aspect-[473.917/390] w-full overflow-hidden rounded-[16px] bg-white p-[var(--talent-card-image-pad,4.82%)]">
+        <div className="relative aspect-[473.917/390] max-md:aspect-[340.705/215.674] w-full overflow-hidden rounded-[16px] bg-white p-[var(--talent-card-image-pad,4.82%)]">
           {talent.photo_url ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -99,7 +100,7 @@ export const TalentShowcaseCard = forwardRef<HTMLElement, TalentShowcaseCardProp
         </div>
 
         <div
-          className="absolute flex aspect-square w-[var(--talent-stamp-size,30.126%)] items-center justify-center rounded-full p-[var(--talent-stamp-pad,2.01%)]"
+          className={`absolute flex aspect-square w-[var(--talent-stamp-size,30.126%)] items-center justify-center rounded-full p-[var(--talent-stamp-pad,2.01%)]${mobileBadge === "pill" ? " max-md:hidden" : ""}`}
           style={{
             backgroundColor: STAMP_COLORS[index % STAMP_COLORS.length],
             left: "var(--talent-stamp-left, 84.96%)",
@@ -113,6 +114,25 @@ export const TalentShowcaseCard = forwardRef<HTMLElement, TalentShowcaseCardProp
             {category}
           </p>
         </div>
+
+        {mobileBadge === "pill" && (
+          <div
+            className="absolute md:hidden flex rounded-[99px] items-center justify-center"
+            style={{
+              backgroundColor: STAMP_COLORS[index % STAMP_COLORS.length],
+              right: "-1.078rem",
+              top: "-0.314rem",
+              paddingTop: "0.090rem",
+              paddingBottom: "0.359rem",
+              paddingLeft: "0.719rem",
+              paddingRight: "0.719rem",
+            }}
+          >
+            <p className="whitespace-nowrap font-agharti-regular-display text-[1.078rem] leading-normal text-[#1a1a1a]">
+              {categoryParts[0]}
+            </p>
+          </div>
+        )}
       </article>
     );
   },
@@ -128,8 +148,8 @@ function SocialHandle({
   const Icon = type === "instagram" ? Camera : Music2;
 
   return (
-    <div className="flex min-w-0 flex-1 items-center gap-2">
-      <span className="flex size-[var(--talent-social-icon-size,7.84cqw)] max-h-[39.043px] max-w-[39.043px] min-h-6 min-w-6 shrink-0 items-center justify-center rounded-full bg-[#1a1a1a] text-[#fff2e7]">
+    <div className="flex min-w-0 flex-1 items-center gap-[0.359rem] md:gap-2">
+      <span className="flex size-[var(--talent-social-icon-size,7.84cqw)] max-h-[39.043px] max-w-[39.043px] min-h-6 min-w-6 max-md:min-h-[1.078rem] max-md:min-w-[1.078rem] shrink-0 items-center justify-center rounded-full bg-[#1a1a1a] text-[#fff2e7]">
         <Icon className="size-[58%]" strokeWidth={2.5} />
       </span>
       <span
