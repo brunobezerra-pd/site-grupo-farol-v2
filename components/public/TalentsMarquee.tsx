@@ -4,7 +4,10 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useEffect, useLayoutEffect, useRef } from "react";
 
-import { TalentShowcaseCard } from "@/components/public/TalentShowcaseCard";
+import {
+  TALENT_SHOWCASE_MOBILE_CARD_CLASS,
+  TalentShowcaseCard,
+} from "@/components/public/TalentShowcaseCard";
 import type { Talent } from "@/types";
 
 type TalentsMarqueeProps = {
@@ -173,7 +176,7 @@ export function TalentsMarquee({ talents }: TalentsMarqueeProps) {
                   key={`${talent.id}-${index}`}
                   talent={talent}
                   index={index % carouselItems.length}
-                  className="w-[22.372rem] max-md:[--talent-card-content-pb:1.797rem] max-md:[--talent-card-gap:1.033rem] max-md:[--talent-card-image-pad:1.078rem] max-md:[--talent-card-pad:0.539rem] max-md:[--talent-handle-size:0.836rem] max-md:[--talent-name-size:2.876rem] max-md:[--talent-social-icon-size:1.078rem] max-md:[--talent-stamp-font-size:2.157rem] max-md:[--talent-stamp-left:84.96%] max-md:[--talent-stamp-pad:0.449rem] max-md:[--talent-stamp-size:30.126%] max-md:[--talent-stamp-top:-9.41%] md:max-xl:w-[31.12rem] xl:w-[29.638%]"
+                  className={`w-[22.372rem] ${TALENT_SHOWCASE_MOBILE_CARD_CLASS} md:max-xl:w-[31.12rem] xl:w-[29.638%]`}
                   mobileBadge="pill"
                   onHoverChange={setPaused}
                   ref={

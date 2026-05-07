@@ -7,6 +7,9 @@ import type { Talent } from "@/types";
 
 const STAMP_COLORS = ["#d1d362", "#d96837", "#5c8dc9"];
 
+export const TALENT_SHOWCASE_MOBILE_CARD_CLASS =
+  "max-md:[--talent-card-content-pb:1.078rem] max-md:[--talent-card-gap:1.033rem] max-md:[--talent-card-image-pad:1.078rem] max-md:[--talent-card-pad:0.539rem] max-md:[--talent-handle-size:0.836rem] max-md:[--talent-mobile-badge-font-size:1.548rem] max-md:[--talent-mobile-badge-pb:0.516rem] max-md:[--talent-mobile-badge-pt:0.129rem] max-md:[--talent-mobile-badge-px:1.032rem] max-md:[--talent-mobile-badge-right:-0.719rem] max-md:[--talent-mobile-badge-top:-0.719rem] max-md:[--talent-name-size:2.876rem] max-md:[--talent-social-icon-size:1.078rem] max-md:[--talent-stamp-font-size:2.157rem] max-md:[--talent-stamp-left:84.96%] max-md:[--talent-stamp-pad:0.449rem] max-md:[--talent-stamp-size:30.126%] max-md:[--talent-stamp-top:-9.41%]";
+
 export function getTalentHandle(url: string | null) {
   if (!url) return null;
 
@@ -120,15 +123,18 @@ export const TalentShowcaseCard = forwardRef<HTMLElement, TalentShowcaseCardProp
             className="absolute md:hidden flex rounded-[99px] items-center justify-center"
             style={{
               backgroundColor: STAMP_COLORS[index % STAMP_COLORS.length],
-              right: "-1.078rem",
-              top: "-0.314rem",
-              paddingTop: "0.090rem",
-              paddingBottom: "0.359rem",
-              paddingLeft: "0.719rem",
-              paddingRight: "0.719rem",
+              right: "var(--talent-mobile-badge-right, -0.719rem)",
+              top: "var(--talent-mobile-badge-top, -0.719rem)",
+              paddingTop: "var(--talent-mobile-badge-pt, 0.129rem)",
+              paddingBottom: "var(--talent-mobile-badge-pb, 0.516rem)",
+              paddingLeft: "var(--talent-mobile-badge-px, 1.032rem)",
+              paddingRight: "var(--talent-mobile-badge-px, 1.032rem)",
             }}
           >
-            <p className="whitespace-nowrap font-agharti-regular-display text-[1.078rem] leading-normal text-[#1a1a1a]">
+            <p
+              className="whitespace-nowrap font-agharti-regular-display leading-normal text-[#1a1a1a]"
+              style={{ fontSize: "var(--talent-mobile-badge-font-size, 1.548rem)" }}
+            >
               {categoryParts[0]}
             </p>
           </div>

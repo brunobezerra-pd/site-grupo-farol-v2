@@ -3,7 +3,10 @@
 import { useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
-import { TalentShowcaseCard } from "@/components/public/TalentShowcaseCard";
+import {
+  TALENT_SHOWCASE_MOBILE_CARD_CLASS,
+  TalentShowcaseCard,
+} from "@/components/public/TalentShowcaseCard";
 import type { Talent } from "@/types";
 
 const PAGE_SIZE = 20;
@@ -97,13 +100,14 @@ export function CastingExplorer({ talents }: CastingExplorerProps) {
         </p>
 
         {visibleTalents.length > 0 ? (
-          <div className="grid grid-cols-1 gap-x-12 gap-y-20 overflow-visible sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-1 justify-items-center gap-x-12 gap-y-20 overflow-visible md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {visibleTalents.map((talent, index) => (
               <TalentShowcaseCard
                 key={talent.id}
                 talent={talent}
                 index={index}
-                className="w-full"
+                className={`w-full max-w-[22.372rem] ${TALENT_SHOWCASE_MOBILE_CARD_CLASS} md:max-w-none`}
+                mobileBadge="pill"
               />
             ))}
           </div>
