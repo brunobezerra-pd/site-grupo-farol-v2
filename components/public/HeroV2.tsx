@@ -20,11 +20,11 @@ function getMobileMediaItem(mediaItems: HeroMediaItem[]) {
 }
 
 function HeroV2MobileMedia({ item }: { item?: HeroMediaItem }) {
-  const mediaClassName =
-    "h-[15rem] w-[26.6666875rem] shrink-0 bg-[#e0d8d1]";
+  // Wrapper keeps 16:9 on every screen width; height is derived automatically
+  const wrapperClassName = "w-full aspect-video shrink-0 bg-[#e0d8d1] overflow-hidden";
 
   if (!item) {
-    return <div aria-hidden="true" className={mediaClassName} />;
+    return <div aria-hidden="true" className={wrapperClassName} />;
   }
 
   if (
@@ -32,27 +32,29 @@ function HeroV2MobileMedia({ item }: { item?: HeroMediaItem }) {
     item.source_url
   ) {
     return (
-      <video
-        src={item.source_url}
-        className={`${mediaClassName} object-cover`}
-        autoPlay
-        muted
-        loop
-        playsInline
-      />
+      <div className={wrapperClassName}>
+        <video
+          src={item.source_url}
+          className="w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+        />
+      </div>
     );
   }
 
   if (item.media_type === "embed" && item.embed_code) {
     return (
       <div
-        className={`overflow-hidden [&_iframe]:size-full ${mediaClassName}`}
+        className={`[&_iframe]:size-full ${wrapperClassName}`}
         dangerouslySetInnerHTML={{ __html: item.embed_code }}
       />
     );
   }
 
-  return <div aria-hidden="true" className={mediaClassName} />;
+  return <div aria-hidden="true" className={wrapperClassName} />;
 }
 
 export function HeroV2({ mediaItems = [] }: HeroV2Props) {
