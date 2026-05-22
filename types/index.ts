@@ -50,6 +50,36 @@ export type SiteSetting = {
   updated_at: string | null;
 };
 
+export type HeroMediaPlacement = "carousel" | "mobile";
+
+export type HeroMediaType = "image" | "video_file" | "video_url" | "embed";
+
+export type HeroMediaItem = {
+  id: string;
+  placement: HeroMediaPlacement;
+  media_type: HeroMediaType;
+  source_url: string | null;
+  embed_code: string | null;
+  alt_text: string | null;
+  sort_order: number;
+  created_at: string | null;
+  updated_at: string | null;
+};
+
+export type HeroMediaItemInsert = {
+  id?: string;
+  placement: HeroMediaPlacement;
+  media_type: HeroMediaType;
+  source_url?: string | null;
+  embed_code?: string | null;
+  alt_text?: string | null;
+  sort_order?: number;
+  created_at?: string;
+  updated_at?: string;
+};
+
+export type HeroMediaItemUpdate = Partial<HeroMediaItemInsert>;
+
 type TableDefinition<Row, Insert, Update> = {
   Row: Row;
   Insert: Insert;
@@ -65,6 +95,11 @@ export type Database = {
         Partner,
         PartnerInsert,
         Partial<PartnerInsert>
+      >;
+      hero_media_items: TableDefinition<
+        HeroMediaItem,
+        HeroMediaItemInsert,
+        HeroMediaItemUpdate
       >;
       site_settings: TableDefinition<
         SiteSetting,

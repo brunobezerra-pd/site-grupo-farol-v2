@@ -5,10 +5,14 @@ import { MousePointerClickIcon } from "lucide-react";
 import { toast } from "sonner";
 
 import { saveSettingsAction } from "@/app/admin/actions";
+import { HeroV2MediaManager } from "@/components/admin/HeroV2MediaManager";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
+  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -22,12 +26,26 @@ import {
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
+import type { HeroMediaItem } from "@/types";
 
 type HeroSettingsFormProps = {
   initialSettings: Record<string, string>;
+  initialHeroMediaItems: HeroMediaItem[];
 };
 
-export function HeroSettingsForm({ initialSettings }: HeroSettingsFormProps) {
+type HeroVersion = "v1" | "v2";
+
+function getInitialHeroVersion(value: string): HeroVersion {
+  return value === "v2" ? "v2" : "v1";
+}
+
+export function HeroSettingsForm({
+  initialSettings,
+  initialHeroMediaItems,
+}: HeroSettingsFormProps) {
+  const [heroVersion, setHeroVersion] = useState<HeroVersion>(
+    getInitialHeroVersion(initialSettings.hero_version),
+  );
   const [buttonEnabled, setButtonEnabled] = useState(
     initialSettings.hero_button_enabled === "true",
   );
@@ -36,6 +54,22 @@ export function HeroSettingsForm({ initialSettings }: HeroSettingsFormProps) {
   );
   const [buttonUrl, setButtonUrl] = useState(initialSettings.hero_button_url);
   const [isPending, startTransition] = useTransition();
+  const [isVersionPending, startVersionTransition] = useTransition();
+
+  function saveHeroVersion(nextVersion: HeroVersion) {
+    const previousVersion = heroVersion;
+    setHeroVersion(nextVersion);
+
+    startVersionTransition(async () => {
+      try {
+        await saveSettingsAction({ hero_version: nextVersion });
+        toast.success(`Hero ${nextVersion.toUpperCase()} selecionado.`);
+      } catch (error) {
+        setHeroVersion(previousVersion);
+        toast.error(error instanceof Error ? error.message : "Erro ao salvar.");
+      }
+    });
+  }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -47,7 +81,7 @@ export function HeroSettingsForm({ initialSettings }: HeroSettingsFormProps) {
           hero_button_label: buttonLabel,
           hero_button_url: buttonUrl,
         });
-        toast.success("Hero salvo.");
+        toast.success("Botão do Hero salvo.");
       } catch (error) {
         toast.error(error instanceof Error ? error.message : "Erro ao salvar.");
       }
@@ -55,87 +89,110 @@ export function HeroSettingsForm({ initialSettings }: HeroSettingsFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Card>
-        <CardHeader className="gap-3">
-          <span className="inline-flex w-fit items-center gap-1.5 rounded-md border px-2 py-1 text-xs font-medium text-muted-foreground">
-            <MousePointerClickIcon className="size-3" />
-            Botão principal
-          </span>
-          <CardTitle>Hero</CardTitle>
-        </CardHeader>
-
-        <CardContent>
-          <FieldGroup>
-            {/* Toggle row */}
-            <Field orientation="horizontal" className="border-b pb-5">
-              <FieldContent>
-                <FieldLabel htmlFor="hero-button-enabled">
-                  Exibir botão
-                </FieldLabel>
-                <FieldDescription>
-                  Quando desativado, o botão não aparece na home
-                </FieldDescription>
-              </FieldContent>
-              <Switch
-                id="hero-button-enabled"
-                checked={buttonEnabled}
-                onCheckedChange={setButtonEnabled}
-              />
-            </Field>
-
-            {/* Fields section */}
-            <div
-              className={cn(
-                "flex flex-col gap-4 pt-1 transition-opacity",
-                !buttonEnabled && "pointer-events-none opacity-50",
-              )}
-            >
-              <Field>
-                <FieldLabel htmlFor="hero-button-label">
-                  Texto
-                  <span className="inline-flex items-center rounded border px-1.5 py-0.5 text-xs font-normal text-muted-foreground">
-                    Visível na home
-                  </span>
-                </FieldLabel>
-                <Input
-                  id="hero-button-label"
-                  value={buttonLabel}
-                  onChange={(event) => setButtonLabel(event.target.value)}
+    <div className="flex w-full min-w-0 max-w-full flex-col gap-6">
+      <form className="min-w-0" onSubmit={handleSubmit}>
+        <Card
+          className={cn(
+            "min-w-0 max-w-full",
+            heroVersion === "v1" && "outline outline-2 outline-primary",
+          )}
+        >
+          <CardHeader className="gap-3">
+            <div className="flex flex-wrap items-center gap-2">
+              <CardTitle className="flex items-center gap-2">
+                <MousePointerClickIcon data-icon="inline-start" />
+                Botão principal
+              </CardTitle>
+              <div className="ml-auto flex items-center gap-2">
+                <span className="text-sm font-medium text-muted-foreground">
+                  Ativo
+                </span>
+                <Switch
+                  checked={heroVersion === "v1"}
+                  disabled={isVersionPending}
+                  onCheckedChange={(checked) =>
+                    saveHeroVersion(checked ? "v1" : "v2")
+                  }
+                  aria-label="Ativar Hero V1"
                 />
-                <FieldDescription>
-                  Recomendado: até 30 caracteres
-                </FieldDescription>
-              </Field>
-
-              <Field>
-                <FieldLabel htmlFor="hero-button-url">
-                  URL de destino
-                  <span className="inline-flex items-center rounded border px-1.5 py-0.5 text-xs font-normal text-muted-foreground">
-                    Link
-                  </span>
-                </FieldLabel>
-                <Input
-                  id="hero-button-url"
-                  type="url"
-                  value={buttonUrl}
-                  onChange={(event) => setButtonUrl(event.target.value)}
-                />
-                <FieldDescription>
-                  Pode ser uma URL interna (/casting) ou externa
-                </FieldDescription>
-              </Field>
+              </div>
             </div>
-          </FieldGroup>
-        </CardContent>
-      </Card>
+            <CardDescription>
+              Controla o CTA exibido no Hero V1.
+            </CardDescription>
+          </CardHeader>
 
-      {/* Actions row — outside the card */}
-      <div className="mt-4 flex justify-end">
-        <Button type="submit" disabled={isPending}>
-          {isPending ? "Salvando..." : "Salvar"}
-        </Button>
-      </div>
-    </form>
+          <CardContent>
+            <FieldGroup>
+              <Field orientation="horizontal" className="border-b pb-5">
+                <FieldContent>
+                  <FieldLabel htmlFor="hero-button-enabled">
+                    Exibir botão
+                  </FieldLabel>
+                  <FieldDescription>
+                    Quando desativado, o botão não aparece na home
+                  </FieldDescription>
+                </FieldContent>
+                <Switch
+                  id="hero-button-enabled"
+                  checked={buttonEnabled}
+                  onCheckedChange={setButtonEnabled}
+                />
+              </Field>
+
+              <div
+                className={cn(
+                  "flex flex-col gap-4 pt-1 transition-opacity",
+                  !buttonEnabled && "pointer-events-none opacity-50",
+                )}
+              >
+                <Field>
+                  <FieldLabel htmlFor="hero-button-label">
+                    Texto
+                    <Badge variant="outline">Visível na home</Badge>
+                  </FieldLabel>
+                  <Input
+                    id="hero-button-label"
+                    value={buttonLabel}
+                    onChange={(event) => setButtonLabel(event.target.value)}
+                  />
+                  <FieldDescription>
+                    Recomendado: até 30 caracteres
+                  </FieldDescription>
+                </Field>
+
+                <Field>
+                  <FieldLabel htmlFor="hero-button-url">
+                    URL de destino
+                    <Badge variant="outline">Link</Badge>
+                  </FieldLabel>
+                  <Input
+                    id="hero-button-url"
+                    type="url"
+                    value={buttonUrl}
+                    onChange={(event) => setButtonUrl(event.target.value)}
+                  />
+                  <FieldDescription>
+                    Pode ser uma URL interna (/casting) ou externa
+                  </FieldDescription>
+                </Field>
+              </div>
+            </FieldGroup>
+          </CardContent>
+          <CardFooter className="justify-end">
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "Salvando..." : "Salvar"}
+            </Button>
+          </CardFooter>
+        </Card>
+      </form>
+
+      <HeroV2MediaManager
+        initialItems={initialHeroMediaItems}
+        isActive={heroVersion === "v2"}
+        isVersionPending={isVersionPending}
+        onActiveChange={(checked) => saveHeroVersion(checked ? "v2" : "v1")}
+      />
+    </div>
   );
 }

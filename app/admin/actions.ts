@@ -1,10 +1,24 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
 import { setSetting, setSettings } from "@/lib/settings";
 import { createAdminClient } from "@/lib/supabase/admin";
+import {
+  createHeroMediaItem,
+  deleteHeroMediaItem,
+  updateHeroMediaItem,
+  updateHeroMediaSortOrder,
+} from "@/lib/hero-media";
 import { createPartner, deletePartner, updatePartnerSortOrder } from "@/lib/partners";
 import { createTalent, deleteTalent, getCategories, updateTalent } from "@/lib/talents";
-import type { TalentInsert, TalentUpdate } from "@/types";
+import type {
+  HeroMediaItem,
+  HeroMediaItemInsert,
+  HeroMediaItemUpdate,
+  TalentInsert,
+  TalentUpdate,
+} from "@/types";
 
 export async function saveSettingAction(key: string, value: string) {
   await setSetting(key, value);
@@ -12,6 +26,33 @@ export async function saveSettingAction(key: string, value: string) {
 
 export async function saveSettingsAction(settings: Record<string, string>) {
   await setSettings(settings);
+}
+
+export async function createHeroMediaItemAction(data: HeroMediaItemInsert) {
+  const item = await createHeroMediaItem(data);
+  revalidatePath("/");
+  return item;
+}
+
+export async function updateHeroMediaItemAction(
+  id: string,
+  data: HeroMediaItemUpdate,
+) {
+  const item = await updateHeroMediaItem(id, data);
+  revalidatePath("/");
+  return item;
+}
+
+export async function deleteHeroMediaItemAction(id: string) {
+  await deleteHeroMediaItem(id);
+  revalidatePath("/");
+}
+
+export async function updateHeroMediaSortOrderAction(
+  items: Array<Pick<HeroMediaItem, "id" | "sort_order">>,
+) {
+  await updateHeroMediaSortOrder(items);
+  revalidatePath("/");
 }
 
 export async function createPartnerAction(logoUrl: string) {

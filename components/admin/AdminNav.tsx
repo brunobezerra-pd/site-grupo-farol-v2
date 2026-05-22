@@ -3,6 +3,7 @@
 import {
   FileTextIcon,
   HomeIcon,
+  InfoIcon,
   LogOutIcon,
   MousePointerClickIcon,
   SearchIcon,
@@ -28,6 +29,7 @@ import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/admin/hero", label: "Hero", icon: HomeIcon },
+  { href: "/admin/about", label: "Sobre", icon: InfoIcon },
   { href: "/admin/talents", label: "Talentos", icon: UsersIcon },
   { href: "/admin/partners", label: "Parceiros", icon: SparklesIcon },
   { href: "/admin/cta", label: "CTA", icon: MousePointerClickIcon },

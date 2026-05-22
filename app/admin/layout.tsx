@@ -25,6 +25,7 @@ import { createClient } from "@/lib/supabase/client";
 
 const breadcrumbLabels: Record<string, string> = {
   hero: "Hero",
+  about: "Sobre",
   talents: "Talentos",
   partners: "Parceiros",
   cta: "CTA",
