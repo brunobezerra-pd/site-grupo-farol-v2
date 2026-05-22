@@ -87,11 +87,8 @@ export function AboutV2() {
         </div>
 
         <div className="flex h-auto w-full shrink-0 flex-col items-end justify-between gap-[2rem] xl:h-full xl:w-[44.5625rem] xl:gap-0">
-          <div className="flex h-[24rem] w-full shrink-0 items-center">
-            <div
-              className="w-full"
-              style={{ padding: "56.25% 0 0 0", position: "relative" }}
-            >
+          <div className="flex w-full shrink-0 items-center">
+            <div className="relative w-full aspect-video">
               <iframe
                 src="https://drive.google.com/file/d/1YR_4ra6WmbTFCeN4_QtDLLJbRvZg-U3R/preview"
                 frameBorder="0"

@@ -93,11 +93,8 @@ export function About({ imageUrl }: AboutProps) {
           className="flex h-auto w-full max-w-none shrink-0 flex-col items-end justify-between gap-[2rem] xl:h-full xl:w-[41.632%] xl:max-w-[713px] xl:gap-0"
           style={{ containerType: "inline-size" }}
         >
-          <div className="flex w-full xl:h-[386.773px] xl:items-center">
-            <div
-              className="w-full"
-              style={{ padding: "56.25% 0 0 0", position: "relative" }}
-            >
+          <div className="flex w-full xl:items-center">
+            <div className="relative w-full aspect-video">
               <iframe
                 src="https://drive.google.com/file/d/1YR_4ra6WmbTFCeN4_QtDLLJbRvZg-U3R/preview"
                 frameBorder="0"
