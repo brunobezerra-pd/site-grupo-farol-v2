@@ -86,7 +86,7 @@ export function AboutV2() {
           </div>
         </div>
 
-        <div className="flex h-auto w-full shrink-0 flex-col items-end justify-between gap-[2rem] xl:h-full xl:w-[44.5625rem] xl:gap-0">
+        <div className="flex h-auto w-full shrink-0 flex-col items-end justify-between gap-[2rem] xl:h-full xl:w-[44.5625rem] xl:justify-center xl:gap-[2rem]">
           <div className="flex w-full shrink-0 items-center">
             <div className="relative w-full aspect-video">
               <iframe
