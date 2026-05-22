@@ -95,18 +95,12 @@ export function About({ imageUrl }: AboutProps) {
         >
           <div className="flex w-full xl:items-center">
             <div className="relative w-full aspect-video">
-              <iframe
-                src="https://drive.google.com/file/d/1YR_4ra6WmbTFCeN4_QtDLLJbRvZg-U3R/preview"
-                frameBorder="0"
-                allow="autoplay"
-                allowFullScreen
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                }}
+              <video
+                src="/FAROL_MANIFESTO_V10_web.mp4"
+                controls
+                playsInline
+                preload="metadata"
+                className="absolute inset-0 w-full h-full object-cover"
                 title="Grupo Farol manifesto"
               />
             </div>

@@ -89,18 +89,12 @@ export function AboutV2() {
         <div className="flex h-auto w-full shrink-0 flex-col items-end justify-between gap-[2rem] xl:h-full xl:w-[44.5625rem] xl:justify-center xl:gap-[2rem]">
           <div className="flex w-full shrink-0 items-center">
             <div className="relative w-full aspect-video">
-              <iframe
-                src="https://drive.google.com/file/d/1YR_4ra6WmbTFCeN4_QtDLLJbRvZg-U3R/preview"
-                frameBorder="0"
-                allow="autoplay"
-                allowFullScreen
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                }}
+              <video
+                src="/FAROL_MANIFESTO_V10_web.mp4"
+                controls
+                playsInline
+                preload="metadata"
+                className="absolute inset-0 w-full h-full object-cover"
                 title="Grupo Farol manifesto"
               />
             </div>
