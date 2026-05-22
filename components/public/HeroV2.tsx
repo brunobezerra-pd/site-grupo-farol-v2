@@ -35,7 +35,9 @@ function HeroV2MobileMedia({ item }: { item?: HeroMediaItem }) {
       <video
         src={item.source_url}
         className={`${mediaClassName} object-cover`}
-        controls
+        autoPlay
+        muted
+        loop
         playsInline
       />
     );
