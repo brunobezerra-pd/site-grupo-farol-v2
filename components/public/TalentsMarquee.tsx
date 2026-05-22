@@ -155,7 +155,7 @@ export function TalentsMarquee({ talents }: TalentsMarqueeProps) {
   return (
     <section
       id="talentos"
-      className="relative overflow-hidden rounded-[48px] bg-[#b9323b] px-[32px] py-[40px] text-[#1a1a1a] md:py-[72px] md:max-xl:px-[4rem] md:max-xl:py-[4.5rem] xl:px-[120px]"
+      className="relative overflow-hidden rounded-[48px] bg-[#b9323b] px-[32px] py-[40px] text-[#1a1a1a] md:py-[72px] md:max-xl:px-[4rem] md:max-xl:py-[4.5rem] xl:overflow-visible xl:px-[120px]"
     >
       <div className="flex w-full flex-col items-start gap-[32px] md:gap-[72px] xl:gap-[105px]">
         <h2 className="w-full text-center font-agharti-regular-display text-[6rem] leading-normal text-[#1a1a1a] md:max-xl:text-[clamp(10rem,25.521vw,12.25rem)] xl:text-[clamp(12.667rem,15.833vw,19rem)]">
@@ -165,7 +165,7 @@ export function TalentsMarquee({ talents }: TalentsMarqueeProps) {
         <div className="relative flex w-full flex-col items-center gap-[16px] pb-[32px] md:max-xl:gap-[2rem] md:max-xl:pb-[2rem] xl:block xl:pb-[72px]">
           <div
             ref={viewportRef}
-            className="-mx-[32px] w-[calc(100%+64px)] overflow-hidden pt-[8px] md:max-xl:-mx-[4rem] md:max-xl:w-[calc(100%+8rem)] md:max-xl:pt-[3.9375rem] xl:-mx-[120px] xl:-mt-[72px] xl:w-[calc(100%+240px)] xl:pb-[8px] xl:pt-[72px]"
+            className="-mx-[32px] w-[calc(100%+64px)] overflow-hidden pt-[0.719rem] md:max-xl:-mx-[4rem] md:max-xl:w-[calc(100%+8rem)] md:max-xl:pt-[3.9375rem] xl:-mx-[120px] xl:-mt-[72px] xl:w-[calc(100%+240px)] xl:pb-[8px] xl:pt-[72px]"
           >
             <div
               ref={trackRef}

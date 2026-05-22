@@ -94,13 +94,8 @@ export function CastingExplorer({ talents }: CastingExplorerProps) {
           isChanging ? "translate-y-2 opacity-0" : "translate-y-0 opacity-100"
         }`}
       >
-        <p className="mb-10 text-center font-heading text-lg italic text-[#1a1a1a]/75">
-          {filteredTalents.length} talento{filteredTalents.length !== 1 ? "s" : ""}
-          {activeCategory ? ` em ${activeCategory}` : " no casting"}
-        </p>
-
         {visibleTalents.length > 0 ? (
-          <div className="grid grid-cols-1 justify-items-center gap-x-12 gap-y-20 overflow-visible md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="mt-16 grid grid-cols-1 justify-items-center gap-x-12 gap-y-20 overflow-visible pt-[0.719rem] md:grid-cols-2 md:pt-0 lg:grid-cols-3 xl:grid-cols-4">
             {visibleTalents.map((talent, index) => (
               <TalentShowcaseCard
                 key={talent.id}

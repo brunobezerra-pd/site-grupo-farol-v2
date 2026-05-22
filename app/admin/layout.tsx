@@ -27,7 +27,6 @@ const breadcrumbLabels: Record<string, string> = {
   hero: "Hero",
   talents: "Talentos",
   partners: "Parceiros",
-  images: "Imagens",
   cta: "CTA",
   seo: "SEO",
   scripts: "Scripts",

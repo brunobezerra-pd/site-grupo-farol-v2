@@ -38,12 +38,14 @@ const STATS = [
 ];
 
 export function About({ imageUrl }: AboutProps) {
+  void imageUrl;
+
   return (
     <section
       id="sobre"
       className="bg-[#fff2e7] px-[32px] py-[72px] text-[#1a1a1a] md:max-xl:px-[4rem] md:max-xl:py-[4.5rem] xl:px-[120px]"
     >
-      <div className="flex w-full flex-col items-start gap-[40px] md:max-xl:h-auto md:max-xl:gap-[2.5rem] xl:h-[800px] xl:flex-row xl:gap-[105px]">
+      <div className="flex w-full flex-col items-start gap-[40px] md:max-xl:h-auto md:max-xl:gap-[2.5rem] xl:h-[700px] xl:flex-row xl:gap-[105px]">
         <div className="flex h-auto w-full min-w-0 flex-col justify-start gap-[2rem] xl:h-full xl:flex-1 xl:justify-between">
           <div className="relative flex w-full flex-col items-start gap-[10px]">
             <h2 className="flex h-auto w-full flex-col justify-end whitespace-pre-wrap leading-none tracking-normal xl:h-[386.773px]">
@@ -91,18 +93,33 @@ export function About({ imageUrl }: AboutProps) {
           className="flex h-auto w-full max-w-none shrink-0 flex-col items-end justify-between gap-[2rem] xl:h-full xl:w-[41.632%] xl:max-w-[713px] xl:gap-0"
           style={{ containerType: "inline-size" }}
         >
-          <div className="relative h-[384px] w-full bg-[#d9d9d9] md:max-xl:aspect-[5/3] md:max-xl:h-auto xl:aspect-[713/384] xl:h-auto">
-            {imageUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={imageUrl} alt="" className="h-full w-full object-cover" />
-            ) : null}
+          <div className="flex w-full xl:h-[386.773px] xl:items-center">
+            <div
+              className="w-full"
+              style={{ padding: "56.25% 0 0 0", position: "relative" }}
+            >
+              <iframe
+                src="https://drive.google.com/file/d/1YR_4ra6WmbTFCeN4_QtDLLJbRvZg-U3R/preview"
+                frameBorder="0"
+                allow="autoplay"
+                allowFullScreen
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                }}
+                title="Grupo Farol manifesto"
+              />
+            </div>
           </div>
 
           <div className="flex w-full flex-col items-start gap-[32px] md:max-xl:flex-row md:max-xl:items-center md:max-xl:justify-between md:max-xl:gap-0 xl:flex-row xl:items-center xl:justify-between xl:gap-0">
             {STATS.map((stat) => (
               <div
                 key={stat.value + stat.color}
-                className="flex h-[150px] w-full shrink-0 items-center justify-center rounded-[24px] px-[12px] py-[30px] md:max-xl:aspect-[199/269] md:max-xl:h-[12.609rem] md:max-xl:w-[9.328rem] md:max-xl:px-[0.75rem] md:max-xl:py-[1.875rem] xl:aspect-[199/269] xl:w-[27.91%] xl:justify-start xl:px-[2.244%] xl:py-[5.61%]"
+                className="flex h-[150px] w-full shrink-0 items-center justify-center rounded-[24px] px-[12px] py-[30px] md:max-xl:aspect-[199/269] md:max-xl:h-[12.609rem] md:max-xl:w-[9.328rem] md:max-xl:px-[0.75rem] md:max-xl:py-[1.875rem] xl:h-auto xl:w-auto xl:justify-start xl:px-[1rem] xl:py-[2.5rem]"
                 style={{ backgroundColor: stat.color }}
               >
                 <div className="flex w-auto items-center justify-center gap-[1.172rem] whitespace-nowrap text-center leading-none text-[#1a1a1a] md:max-xl:w-full md:max-xl:flex-col xl:w-full xl:flex-col xl:gap-[3.506cqw]">

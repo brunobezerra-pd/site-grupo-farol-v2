@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  FileImageIcon,
   FileTextIcon,
   HomeIcon,
   LogOutIcon,
@@ -31,7 +30,6 @@ const navItems = [
   { href: "/admin/hero", label: "Hero", icon: HomeIcon },
   { href: "/admin/talents", label: "Talentos", icon: UsersIcon },
   { href: "/admin/partners", label: "Parceiros", icon: SparklesIcon },
-  { href: "/admin/images", label: "Imagens", icon: FileImageIcon },
   { href: "/admin/cta", label: "CTA", icon: MousePointerClickIcon },
   { href: "/admin/seo", label: "SEO", icon: SearchIcon },
   { href: "/admin/scripts", label: "Scripts", icon: FileTextIcon },

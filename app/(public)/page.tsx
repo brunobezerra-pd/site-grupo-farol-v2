@@ -7,7 +7,6 @@ import { Hero } from "@/components/public/Hero";
 import { HowWeWork } from "@/components/public/HowWeWork";
 import { Partners } from "@/components/public/Partners";
 import { TalentsMarquee } from "@/components/public/TalentsMarquee";
-import { getImageSlots } from "@/lib/image-slots";
 import { getPartners } from "@/lib/partners";
 import { getSettings } from "@/lib/settings";
 import { getTalentsForMarquee } from "@/lib/talents";
@@ -73,21 +72,10 @@ export default async function HomePage() {
   const settings = await getSettings(SETTINGS_KEYS);
   const marqueeCount = Number.parseInt(settings.marquee_count || "10", 10);
 
-  const [talents, partners, imageSlots] = await Promise.all([
+  const [talents, partners] = await Promise.all([
     getTalentsForMarquee(Number.isFinite(marqueeCount) ? marqueeCount : 10),
     getPartners(),
-    getImageSlots(),
   ]);
-
-  const slotByKey = new Map(imageSlots.map((slot) => [slot.slot_key, slot]));
-  const aboutImage =
-    slotByKey.get("about_image")?.enabled === false
-      ? undefined
-      : slotByKey.get("about_image")?.image_url || undefined;
-  const ctaImage =
-    slotByKey.get("cta_image")?.enabled === false
-      ? undefined
-      : slotByKey.get("cta_image")?.image_url || undefined;
 
   return (
     <main className="bg-[#fff2e7] text-[#1a1a1a]">
@@ -96,7 +84,7 @@ export default async function HomePage() {
         buttonLabel={settings.hero_button_label || "Conheca nossos creators"}
         buttonUrl={settings.hero_button_url || "/casting"}
       />
-      <About imageUrl={aboutImage} />
+      <About />
       <Creators />
       <TalentsMarquee talents={talents} />
       <HowWeWork />
@@ -105,7 +93,6 @@ export default async function HomePage() {
         contactButtonLabel={settings.contact_button_label || "Fale com o Farol"}
         contactButtonUrl={settings.contact_button_url || "mailto:contato@grupofarol.com"}
         showTalentsButton={isEnabled(settings.talents_button_enabled)}
-        imageUrl={ctaImage}
       />
     </main>
   );

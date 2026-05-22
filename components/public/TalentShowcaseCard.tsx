@@ -58,7 +58,7 @@ export const TalentShowcaseCard = forwardRef<HTMLElement, TalentShowcaseCardProp
     return (
       <article
         ref={ref}
-        className={`relative flex shrink-0 flex-col gap-[var(--talent-card-gap,5.29cqw)] rounded-[24px] bg-[#fff2e7] p-[var(--talent-card-pad,0.714%)] ${className}`}
+        className={`relative flex shrink-0 flex-col gap-[var(--talent-card-media-gap,var(--talent-card-gap,5.29cqw))] rounded-[24px] bg-[#fff2e7] p-[var(--talent-card-pad,0.714%)] md:[--talent-card-media-gap:0] ${className}`}
         style={{ containerType: "inline-size" }}
         onMouseEnter={() => onHoverChange?.(true)}
         onMouseLeave={() => onHoverChange?.(false)}

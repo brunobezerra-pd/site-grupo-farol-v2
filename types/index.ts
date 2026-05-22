@@ -43,15 +43,6 @@ export type PartnerInsert = {
   created_at?: string;
 };
 
-export type ImageSlot = {
-  id: string;
-  slot_key: string;
-  image_url: string | null;
-  enabled: boolean | null;
-  label: string | null;
-  created_at: string | null;
-};
-
 export type SiteSetting = {
   id: string;
   key: string;
@@ -74,14 +65,6 @@ export type Database = {
         Partner,
         PartnerInsert,
         Partial<PartnerInsert>
-      >;
-      image_slots: TableDefinition<
-        ImageSlot,
-        Omit<ImageSlot, "id" | "created_at"> & {
-          id?: string;
-          created_at?: string;
-        },
-        Partial<Omit<ImageSlot, "id" | "created_at">>
       >;
       site_settings: TableDefinition<
         SiteSetting,

@@ -47,7 +47,8 @@ export async function getTalentsPaginated(
   let query = supabase
     .from("talents")
     .select("*", { count: "exact" })
-    .order("created_at", { ascending: true })
+    .order("featured", { ascending: false, nullsFirst: false })
+    .order("name", { ascending: true })
     .range(from, to);
 
   if (category) {
@@ -90,7 +91,8 @@ export async function getTalents(): Promise<Talent[]> {
   const { data, error } = await supabase
     .from("talents")
     .select("*")
-    .order("created_at", { ascending: false });
+    .order("featured", { ascending: false, nullsFirst: false })
+    .order("name", { ascending: true });
 
   if (error) {
     throw new Error(error.message);

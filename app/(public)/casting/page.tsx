@@ -16,7 +16,7 @@ export default async function CastingPage() {
 
   return (
     <main className="min-h-screen bg-[#b9323b] text-[#1a1a1a]">
-      <section className="overflow-hidden px-8 pb-[96px] pt-[120px] md:px-16 md:pt-[132px] xl:px-[120px] xl:pt-12">
+      <section className="overflow-hidden px-8 pb-[96px] pt-[120px] max-md:overflow-visible md:px-16 md:pt-[132px] xl:px-[120px] xl:pt-12">
         <div className="mx-auto max-w-[1680px]">
           <Link
             href="/"

@@ -4,8 +4,7 @@ import { setSetting, setSettings } from "@/lib/settings";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createPartner, deletePartner, updatePartnerSortOrder } from "@/lib/partners";
 import { createTalent, deleteTalent, getCategories, updateTalent } from "@/lib/talents";
-import { updateSlot } from "@/lib/image-slots";
-import type { ImageSlot, TalentInsert, TalentUpdate } from "@/types";
+import type { TalentInsert, TalentUpdate } from "@/types";
 
 export async function saveSettingAction(key: string, value: string) {
   await setSetting(key, value);
@@ -28,13 +27,6 @@ export async function updatePartnerSortOrderAction(
   sortOrder: number | null,
 ) {
   await updatePartnerSortOrder(id, sortOrder);
-}
-
-export async function updateImageSlotAction(
-  id: string,
-  data: Partial<ImageSlot>,
-) {
-  await updateSlot(id, data);
 }
 
 export async function createTalentAction(data: TalentInsert) {

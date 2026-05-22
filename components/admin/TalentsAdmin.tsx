@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState, useTransition } from "react";
-import { ArrowDownNarrowWideIcon, ArrowUpNarrowWideIcon, PlusIcon, SearchIcon, TriangleAlertIcon, UploadIcon, UserIcon, XIcon } from "lucide-react";
+import { ArrowDownNarrowWideIcon, ArrowUpNarrowWideIcon, PlusIcon, SearchIcon, StarIcon, TriangleAlertIcon, UploadIcon, UserIcon, XIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -33,9 +33,15 @@ export function TalentsAdmin({
   const [query, setQuery] = useState("");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [pendingPhotoFilter, setPendingPhotoFilter] = useState(false);
+  const [featuredOnlyFilter, setFeaturedOnlyFilter] = useState(false);
   const [showImport, setShowImport] = useState(false);
   const [marqueeCount, setMarqueeCount] = useState(initialMarqueeCount);
   const [isPending, startTransition] = useTransition();
+
+  const featuredCount = useMemo(
+    () => initialTalents.filter((t) => t.featured).length,
+    [initialTalents],
+  );
 
   const pendingCount = useMemo(
     () => initialTalents.filter((t) => t.photo_pending).length,
@@ -55,13 +61,17 @@ export function TalentsAdmin({
       result = result.filter((t) => t.photo_pending);
     }
 
+    if (featuredOnlyFilter) {
+      result = result.filter((t) => t.featured);
+    }
+
     return result.sort((a, b) => {
       const cmp = a.name.localeCompare(b.name, undefined, {
         sensitivity: "base",
       });
       return sortDir === "asc" ? cmp : -cmp;
     });
-  }, [initialTalents, query, sortDir, pendingPhotoFilter]);
+  }, [initialTalents, query, sortDir, pendingPhotoFilter, featuredOnlyFilter]);
 
   function saveMarqueeCount() {
     startTransition(async () => {
@@ -166,6 +176,16 @@ export function TalentsAdmin({
               )}
               {sortDir === "asc" ? "A–Z" : "Z–A"}
             </Button>
+            {featuredCount > 0 && (
+              <Button
+                type="button"
+                variant={featuredOnlyFilter ? "default" : "outline"}
+                onClick={() => setFeaturedOnlyFilter((value) => !value)}
+              >
+                <StarIcon data-icon="inline-start" />
+                Destaques
+              </Button>
+            )}
             <Button type="button" variant="outline" onClick={() => setShowImport((value) => !value)}>
               <UploadIcon data-icon="inline-start" />
               Importar
@@ -200,7 +220,8 @@ export function TalentsAdmin({
                   )}
 
                   {talent.featured && (
-                    <span className="absolute right-1.5 top-1.5 rounded-md bg-primary px-1.5 py-0.5 text-[10px] font-medium text-primary-foreground">
+                    <span className="absolute right-1.5 top-1.5 inline-flex items-center gap-1 rounded-md bg-primary px-1.5 py-0.5 text-[10px] font-medium text-primary-foreground">
+                      <StarIcon className="size-2.5" />
                       Destaque
                     </span>
                   )}
