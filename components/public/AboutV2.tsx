@@ -16,11 +16,11 @@ const STATS = [
     mobileHeight: "h-[9.375rem]",
     label: (
       <>
-        <span className="text-[clamp(1.8rem,7.5vw,2.9845rem)] leading-[1.27] md:max-xl:text-[2.9845rem]">
+        <span className="text-[clamp(2.4rem,8vw,2.9845rem)] leading-[1.27] md:max-xl:text-[2.9845rem]">
           PrOjetos
         </span>
         <br />
-        <span className="text-[clamp(1.5rem,6.2vw,2.4870625rem)] leading-[1.014] md:max-xl:text-[2.4870625rem]">
+        <span className="text-[clamp(2rem,7vw,2.4870625rem)] leading-[1.014] md:max-xl:text-[2.4870625rem]">
           realizados
         </span>
       </>
@@ -107,11 +107,11 @@ export function AboutV2() {
                 className={`flex w-full shrink-0 items-center justify-center rounded-[1.5rem] px-[0.75rem] py-[1.875rem] md:max-xl:h-[12.609375rem] md:max-xl:w-auto xl:h-[16.8125rem] xl:w-auto xl:justify-start xl:px-[1rem] xl:py-[2.5rem] ${stat.mobileHeight}`}
                 style={{ backgroundColor: stat.color }}
               >
-                <div className="flex shrink-0 items-center justify-center gap-[clamp(0.5rem,3vw,1.171875rem)] whitespace-nowrap text-center leading-none text-[#1a1a1a] md:max-xl:w-[7.828125rem] md:max-xl:flex-col xl:w-[10.4375rem] xl:flex-col xl:gap-[1.5625rem]">
-                  <p className="font-agharti-buw-display text-[clamp(3rem,12vw,5.625rem)] leading-none md:max-xl:w-full md:max-xl:text-[4.125rem] xl:w-full xl:text-[5.5rem]">
+                <div className="flex shrink-0 items-center justify-center gap-[clamp(0.8rem,2.5vw,1.171875rem)] whitespace-nowrap text-center leading-none text-[#1a1a1a] md:max-xl:w-[7.828125rem] md:max-xl:flex-col xl:w-[10.4375rem] xl:flex-col xl:gap-[1.5625rem]">
+                  <p className="font-agharti-buw-display text-[clamp(4.2rem,14vw,5.625rem)] leading-none md:max-xl:w-full md:max-xl:text-[4.125rem] xl:w-full xl:text-[5.5rem]">
                     {stat.value}
                   </p>
-                  <p className="font-foun-display text-[clamp(1.2rem,5vw,1.875rem)] leading-none md:max-xl:w-full xl:w-full xl:text-[2.5rem]">
+                  <p className="font-foun-display text-[clamp(1.5rem,5vw,1.875rem)] leading-none md:max-xl:w-full xl:w-full xl:text-[2.5rem]">
                     {stat.label}
                   </p>
                 </div>

@@ -18,11 +18,11 @@ const STATS = [
     value: "+1000",
     label: (
       <>
-        <span className="text-[clamp(1.8rem,7.5vw,2.9845rem)] leading-[1.27] md:max-xl:text-[2.9845rem]">
+        <span className="text-[clamp(2.4rem,8vw,2.9845rem)] leading-[1.27] md:max-xl:text-[2.9845rem]">
           PrOjetos
         </span>
         <br />
-        <span className="text-[clamp(1.5rem,6.2vw,2.4870625rem)] leading-[1.014] md:max-xl:text-[2.4870625rem]">
+        <span className="text-[clamp(2rem,7vw,2.4870625rem)] leading-[1.014] md:max-xl:text-[2.4870625rem]">
           realizados
         </span>
       </>
@@ -117,12 +117,12 @@ export function About({ imageUrl }: AboutProps) {
                 className="flex h-[150px] w-full shrink-0 items-center justify-center rounded-[24px] px-[12px] py-[30px] md:max-xl:aspect-[199/269] md:max-xl:h-[12.609rem] md:max-xl:w-[9.328rem] md:max-xl:px-[0.75rem] md:max-xl:py-[1.875rem] xl:h-auto xl:w-auto xl:justify-start xl:px-[1rem] xl:py-[2.5rem]"
                 style={{ backgroundColor: stat.color }}
               >
-                <div className="flex w-auto items-center justify-center gap-[clamp(0.5rem,3vw,1.172rem)] whitespace-nowrap text-center leading-none text-[#1a1a1a] md:max-xl:w-full md:max-xl:flex-col xl:w-full xl:flex-col xl:gap-[3.506cqw]">
-                  <p className="font-agharti-buw-display text-[clamp(3rem,12vw,5.625rem)] md:max-xl:w-full md:max-xl:text-[4.125rem] xl:w-full xl:text-[clamp(3rem,12.342cqw,5.5rem)]">
+                <div className="flex w-auto items-center justify-center gap-[clamp(0.8rem,2.5vw,1.172rem)] whitespace-nowrap text-center leading-none text-[#1a1a1a] md:max-xl:w-full md:max-xl:flex-col xl:w-full xl:flex-col xl:gap-[3.506cqw]">
+                  <p className="font-agharti-buw-display text-[clamp(4.2rem,14vw,5.625rem)] md:max-xl:w-full md:max-xl:text-[4.125rem] xl:w-full xl:text-[clamp(3rem,12.342cqw,5.5rem)]">
                     {stat.value}
                   </p>
                   <p
-                    className="font-foun-display text-[clamp(1.2rem,5vw,1.875rem)] leading-none md:max-xl:w-full xl:w-full xl:text-[clamp(1.5rem,5.61cqw,2.5rem)]"
+                    className="font-foun-display text-[clamp(1.5rem,5vw,1.875rem)] leading-none md:max-xl:w-full xl:w-full xl:text-[clamp(1.5rem,5.61cqw,2.5rem)]"
                   >
                     {stat.label}
                   </p>
