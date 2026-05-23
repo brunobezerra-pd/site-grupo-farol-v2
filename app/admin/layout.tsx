@@ -42,6 +42,10 @@ export default function AdminLayout({
   const [userName, setUserName] = useState("");
 
   useEffect(() => {
+    document.title = "Grupo Farol - Admin";
+  }, []);
+
+  useEffect(() => {
     if (pathname === "/admin/login") return;
     const supabase = createClient();
     supabase.auth.getUser().then(({ data }) => {
