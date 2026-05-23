@@ -72,7 +72,7 @@ export function CTA({
         id="contato"
         className="bg-[#fff2e7] px-[2rem] py-[4.5rem] text-[#1a1a1a] md:max-xl:px-[4rem] xl:px-[clamp(5rem,6.25vw,7.5rem)] xl:py-[clamp(4rem,3.75vw,4.5rem)]"
       >
-        <div className="grid w-full grid-cols-1 items-start gap-[6rem] xl:grid-cols-2 xl:gap-[clamp(4rem,5vw,6rem)]">
+        <div className={`grid w-full items-start gap-[6rem] ${imageUrl ? "xl:grid-cols-2 xl:gap-[clamp(4rem,5vw,6rem)]" : "xl:max-w-[56rem] xl:mx-auto"} grid-cols-1`}>
           <div className="relative flex w-full flex-col items-center justify-center gap-[3rem] rounded-[3rem] bg-[#d1d362] px-[2.5rem] pb-[4.5rem] pt-[2.5rem] xl:min-h-[clamp(12.75rem,21.146vw,25.375rem)] xl:gap-[clamp(2.5rem,2.5vw,3rem)] xl:pt-[1rem]">
             <h2 className="rotate-[1.56deg] text-center font-casual-human-display text-[3rem] font-bold leading-[0.94] xl:text-[clamp(3rem,3.333vw,4rem)]">
               VAMOS CO-CRIAR JUNTOS?
@@ -98,12 +98,12 @@ export function CTA({
             </Link>
           </div>
 
-          <div className="relative h-[31rem] w-full bg-[#d9d9d9] xl:aspect-[791/496] xl:h-auto">
-            {imageUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
+          {imageUrl ? (
+            <div className="relative h-[31rem] w-full xl:aspect-[791/496] xl:h-auto">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={imageUrl} alt="" className="h-full w-full object-cover" />
-            ) : null}
-          </div>
+            </div>
+          ) : null}
         </div>
       </section>
     </>
