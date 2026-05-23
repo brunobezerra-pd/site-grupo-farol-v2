@@ -70,7 +70,7 @@ export function CTA({
       <SectionSeparator />
       <section
         id="contato"
-        className="bg-[#fff2e7] px-[2rem] py-[4.5rem] text-[#1a1a1a] md:max-xl:px-[4rem] xl:px-[clamp(5rem,6.25vw,7.5rem)] xl:py-[clamp(4rem,3.75vw,4.5rem)]"
+        className="bg-[#fff2e7] px-[2rem] pt-[4.5rem] pb-[7.5rem] text-[#1a1a1a] md:max-xl:px-[4rem] xl:px-[clamp(5rem,6.25vw,7.5rem)] xl:pt-[clamp(4rem,3.75vw,4.5rem)] xl:pb-[clamp(6.5rem,6.5vw,8rem)]"
       >
         <div className={`grid w-full items-start gap-[6rem] ${imageUrl ? "xl:grid-cols-2 xl:gap-[clamp(4rem,5vw,6rem)]" : "xl:max-w-[56rem] xl:mx-auto"} grid-cols-1`}>
           <div className="relative flex w-full flex-col items-center justify-center gap-[3rem] rounded-[3rem] bg-[#d1d362] px-[2.5rem] pb-[4.5rem] pt-[2.5rem] xl:min-h-[clamp(12.75rem,21.146vw,25.375rem)] xl:gap-[clamp(2.5rem,2.5vw,3rem)] xl:pt-[1rem]">
