@@ -207,7 +207,7 @@ export function Creators() {
           ))}
         </div>
 
-        <div className="grid w-full grid-cols-2 gap-[16px] md:hidden">
+        <div className="grid w-full grid-cols-2 gap-x-[24px] gap-y-[32px] md:hidden">
           {TABLET_BADGES.map((badge) => (
             <div
               key={badge.label}
@@ -218,16 +218,16 @@ export function Creators() {
                 className="flex w-auto items-center justify-center rounded-[99px]"
                 style={{
                   backgroundColor: badge.color,
-                  paddingInline: "clamp(1.2rem, 5vw, 1.8rem)",
-                  paddingBottom: "clamp(0.45rem, 1.8vw, 0.6rem)",
-                  paddingTop: "clamp(0.2rem, 0.9vw, 0.3rem)",
+                  paddingInline: "clamp(1.8rem, 7vw, 2.5rem)",
+                  paddingBottom: "clamp(0.6rem, 2.2vw, 0.9rem)",
+                  paddingTop: "clamp(0.3rem, 1.1vw, 0.45rem)",
                 }}
               >
                 <p
                   className={`whitespace-nowrap font-agharti-regular-display leading-normal text-[#1a1a1a] ${
                     badge.size === "large"
-                      ? "text-[clamp(1.4rem,5.5vw,1.75rem)]"
-                      : "text-[clamp(1.2rem,4.8vw,1.5rem)]"
+                      ? "text-[clamp(1.9rem,7.5vw,2.5rem)]"
+                      : "text-[clamp(1.6rem,6.5vw,2.1rem)]"
                   }`}
                 >
                   {badge.label}
