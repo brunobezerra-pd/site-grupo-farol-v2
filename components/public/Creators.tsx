@@ -215,18 +215,19 @@ export function Creators() {
               style={{ rotate: badge.rotate } as CSSProperties}
             >
               <div
-                className={`flex w-full items-center justify-center rounded-[99px] ${
-                  badge.size === "large"
-                    ? "px-[1.28rem] pb-[0.32rem] pt-[0.064rem]"
-                    : "px-[1.148rem] pb-[0.287rem] pt-[0.057rem]"
-                }`}
-                style={{ backgroundColor: badge.color }}
+                className="flex w-auto items-center justify-center rounded-[99px]"
+                style={{
+                  backgroundColor: badge.color,
+                  paddingInline: "clamp(0.8rem, 3.5vw, 1.25rem)",
+                  paddingBottom: "clamp(0.25rem, 1vw, 0.4rem)",
+                  paddingTop: "clamp(0.1rem, 0.5vw, 0.2rem)",
+                }}
               >
                 <p
                   className={`whitespace-nowrap font-agharti-regular-display leading-normal text-[#1a1a1a] ${
                     badge.size === "large"
-                      ? "text-[1.024rem]"
-                      : "text-[0.918rem]"
+                      ? "text-[clamp(1.15rem,4.6vw,1.4rem)]"
+                      : "text-[clamp(1rem,4vw,1.2rem)]"
                   }`}
                 >
                   {badge.label}
