@@ -136,7 +136,7 @@ export function HeroV2({ mediaItems = [] }: HeroV2Props) {
                 </p>
               </div>
             </div>
-            <div className="absolute bottom-[3.465rem] right-[3.73rem] h-[4.5rem] w-[4.498625rem]">
+            <div className="absolute bottom-[3.465rem] right-0 h-[4.5rem] w-[4.498625rem]">
               <Image
                 src="/hero-v2-star.svg"
                 alt=""
