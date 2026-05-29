@@ -41,11 +41,11 @@ export function Partners({ partners }: PartnersProps) {
           />
         </div>
 
-        <div className="flex w-full flex-wrap items-center justify-center gap-[2.5rem] md:max-xl:gap-[2rem] xl:gap-[2rem]">
+        <div className="grid w-full grid-cols-3 items-center justify-center gap-[0.75rem] md:max-lg:gap-[1.25rem] lg:grid-cols-6 lg:gap-[1.25rem]">
           {hasPartners ? partners.map((partner, index) => (
             <div
               key={partner.id}
-              className="flex h-[4.5rem] w-[8rem] shrink-0 items-center justify-center overflow-hidden rounded-[1rem] bg-white p-[1.25rem] md:max-xl:h-[9rem] md:max-xl:w-[16rem] md:max-xl:p-[2.5rem] xl:h-[clamp(7.5rem,7.5vw,9rem)] xl:w-[clamp(13rem,13.333vw,16rem)] xl:p-[clamp(1.5rem,2.083vw,2.5rem)]"
+              className="flex h-[3.5rem] w-full items-center justify-center overflow-hidden rounded-[1rem] bg-white p-[0.75rem] md:max-lg:h-[7.5rem] md:max-lg:p-[2rem] lg:h-[clamp(6rem,6.25vw,7.5rem)] lg:p-[clamp(1.25rem,1.667vw,2rem)]"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -57,7 +57,7 @@ export function Partners({ partners }: PartnersProps) {
           )) : PLACEHOLDER_PARTNERS.map((index) => (
             <div
               key={index}
-              className="flex h-[4.5rem] w-[8rem] shrink-0 items-center justify-center overflow-hidden rounded-[1rem] bg-white p-[1.25rem] md:max-xl:h-[9rem] md:max-xl:w-[16rem] md:max-xl:p-[2.5rem] xl:h-[clamp(7.5rem,7.5vw,9rem)] xl:w-[clamp(13rem,13.333vw,16rem)] xl:p-[clamp(1.5rem,2.083vw,2.5rem)]"
+              className="flex h-[3.5rem] w-full items-center justify-center overflow-hidden rounded-[1rem] bg-white p-[0.75rem] md:max-lg:h-[7.5rem] md:max-lg:p-[2rem] lg:h-[clamp(6rem,6.25vw,7.5rem)] lg:p-[clamp(1.25rem,1.667vw,2rem)]"
             >
               <LogoPlaceholder />
             </div>

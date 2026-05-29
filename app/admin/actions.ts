@@ -10,7 +10,12 @@ import {
   updateHeroMediaItem,
   updateHeroMediaSortOrder,
 } from "@/lib/hero-media";
-import { createPartner, deletePartner, updatePartnerSortOrder } from "@/lib/partners";
+import {
+  createPartner,
+  deletePartner,
+  updatePartnerSortOrder,
+  updatePartnerSortOrders,
+} from "@/lib/partners";
 import { createTalent, deleteTalent, getCategories, updateTalent } from "@/lib/talents";
 import type {
   HeroMediaItem,
@@ -55,12 +60,18 @@ export async function updateHeroMediaSortOrderAction(
   revalidatePath("/");
 }
 
-export async function createPartnerAction(logoUrl: string) {
-  return createPartner(logoUrl);
+export async function createPartnerAction(
+  logoUrl: string,
+  sortOrder?: number | null,
+) {
+  const partner = await createPartner(logoUrl, sortOrder);
+  revalidatePath("/");
+  return partner;
 }
 
 export async function deletePartnerAction(id: string) {
   await deletePartner(id);
+  revalidatePath("/");
 }
 
 export async function updatePartnerSortOrderAction(
@@ -68,6 +79,14 @@ export async function updatePartnerSortOrderAction(
   sortOrder: number | null,
 ) {
   await updatePartnerSortOrder(id, sortOrder);
+  revalidatePath("/");
+}
+
+export async function updatePartnerSortOrdersAction(
+  items: Array<{ id: string; sort_order: number | null }>,
+) {
+  await updatePartnerSortOrders(items);
+  revalidatePath("/");
 }
 
 export async function createTalentAction(data: TalentInsert) {

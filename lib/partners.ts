@@ -27,11 +27,14 @@ export async function getPartners(): Promise<Partner[]> {
   return data;
 }
 
-export async function createPartner(logoUrl: string): Promise<Partner> {
+export async function createPartner(
+  logoUrl: string,
+  sortOrder?: number | null,
+): Promise<Partner> {
   const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("partners")
-    .insert({ logo_url: logoUrl })
+    .insert({ logo_url: logoUrl, sort_order: sortOrder ?? null })
     .select()
     .single();
 
@@ -80,4 +83,23 @@ export async function updatePartnerSortOrder(
   if (error) {
     throw new Error(error.message);
   }
+}
+
+export async function updatePartnerSortOrders(
+  items: Array<Pick<Partner, "id" | "sort_order">>,
+): Promise<void> {
+  const supabase = createAdminClient();
+
+  await Promise.all(
+    items.map(async (item) => {
+      const { error } = await supabase
+        .from("partners")
+        .update({ sort_order: item.sort_order })
+        .eq("id", item.id);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+    }),
+  );
 }
