@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import {
@@ -23,6 +23,8 @@ function getTalentCategoryParts(talent: Talent) {
 }
 
 export function CastingExplorer({ talents }: CastingExplorerProps) {
+  const categoriesTopRef = useRef<HTMLDivElement>(null);
+  const listTopRef = useRef<HTMLDivElement>(null);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [isChanging, setIsChanging] = useState(false);
@@ -67,14 +69,22 @@ export function CastingExplorer({ talents }: CastingExplorerProps) {
     });
   }
 
+  function scrollToPaginationTarget() {
+    const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+    const target = isDesktop ? categoriesTopRef.current : listTopRef.current;
+
+    target?.scrollIntoView({ block: "start", behavior: "smooth" });
+  }
+
   function selectPage(page: number) {
     if (page === safePage) return;
+    scrollToPaginationTarget();
     transitionTo(() => setCurrentPage(page));
   }
 
   return (
     <>
-      <div className="mb-9 flex flex-wrap items-center justify-center gap-3">
+      <div ref={categoriesTopRef} className="mb-9 flex flex-wrap items-center justify-center gap-3">
         <CategoryButton active={!activeCategory} onClick={() => selectCategory(null)}>
           Todos
         </CategoryButton>
@@ -90,6 +100,7 @@ export function CastingExplorer({ talents }: CastingExplorerProps) {
       </div>
 
       <div
+        ref={listTopRef}
         className={`transition duration-300 ease-out ${
           isChanging ? "translate-y-2 opacity-0" : "translate-y-0 opacity-100"
         }`}

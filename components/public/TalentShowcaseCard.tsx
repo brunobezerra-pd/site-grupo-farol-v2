@@ -14,10 +14,39 @@ export function getTalentHandle(url: string | null) {
   if (!url) return null;
 
   return url
+    .trim()
     .replace(/^https?:\/\/(www\.)?instagram\.com\//, "@")
     .replace(/^https?:\/\/(www\.)?tiktok\.com\/@?/, "@")
+    .replace(/^(www\.)?instagram\.com\//, "@")
+    .replace(/^(www\.)?tiktok\.com\/@?/, "@")
     .replace(/^@?/, "@")
     .replace(/\/$/, "");
+}
+
+function getSocialProfileUrl(url: string | null, type: "instagram" | "tiktok") {
+  if (!url) return null;
+
+  const value = url.trim();
+  if (!value) return null;
+
+  const withProtocol = /^https?:\/\//i.test(value) ? value : `https://${value}`;
+
+  try {
+    const parsedUrl = new URL(withProtocol);
+    const hostname = parsedUrl.hostname.replace(/^www\./, "").toLowerCase();
+
+    if (type === "instagram" && hostname === "instagram.com") {
+      return parsedUrl.toString();
+    }
+
+    if (type === "tiktok" && hostname === "tiktok.com") {
+      return parsedUrl.toString();
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
 }
 
 function getCategoryParts(talent: Talent) {
@@ -53,6 +82,8 @@ export const TalentShowcaseCard = forwardRef<HTMLElement, TalentShowcaseCardProp
     const name = getDisplayName(talent.name);
     const instagram = getTalentHandle(talent.instagram_url ?? null);
     const tiktok = getTalentHandle(talent.tiktok_url ?? null);
+    const instagramUrl = getSocialProfileUrl(talent.instagram_url ?? null, "instagram");
+    const tiktokUrl = getSocialProfileUrl(talent.tiktok_url ?? null, "tiktok");
     const fallbackHandle = `@${name.toLowerCase().replace(/\s+/g, "")}`;
 
     return (
@@ -97,8 +128,16 @@ export const TalentShowcaseCard = forwardRef<HTMLElement, TalentShowcaseCardProp
             {name}
           </h3>
           <div className="flex w-full items-center justify-between gap-4">
-            <SocialHandle type="instagram" handle={instagram || fallbackHandle} />
-            <SocialHandle type="tiktok" handle={tiktok || instagram || fallbackHandle} />
+            <SocialHandle
+              type="instagram"
+              handle={instagram || fallbackHandle}
+              href={instagramUrl}
+            />
+            <SocialHandle
+              type="tiktok"
+              handle={tiktok || instagram || fallbackHandle}
+              href={tiktokUrl}
+            />
           </div>
         </div>
 
@@ -147,23 +186,36 @@ export const TalentShowcaseCard = forwardRef<HTMLElement, TalentShowcaseCardProp
 function SocialHandle({
   type,
   handle,
+  href,
 }: {
   type: "instagram" | "tiktok";
   handle: string;
+  href: string | null;
 }) {
   const Icon = type === "instagram" ? Camera : Music2;
+  const textClassName = "truncate font-heading italic leading-normal text-[#1a1a1a]";
+  const textStyle = { fontSize: "var(--talent-handle-size, clamp(0.75rem, 3.73cqw, 1.162rem))" };
 
   return (
     <div className="flex min-w-0 flex-1 items-center gap-[0.359rem] md:gap-2">
       <span className="flex size-[var(--talent-social-icon-size,7.84cqw)] max-h-[39.043px] max-w-[39.043px] min-h-6 min-w-6 max-md:min-h-[1.078rem] max-md:min-w-[1.078rem] shrink-0 items-center justify-center rounded-full bg-[#1a1a1a] text-[#fff2e7]">
         <Icon className="size-[58%]" strokeWidth={2.5} />
       </span>
-      <span
-        className="truncate font-heading italic leading-normal text-[#1a1a1a]"
-        style={{ fontSize: "var(--talent-handle-size, clamp(0.75rem, 3.73cqw, 1.162rem))" }}
-      >
-        {handle}
-      </span>
+      {href ? (
+        <a
+          href={href}
+          target="_blank"
+          rel="noreferrer"
+          className={textClassName}
+          style={textStyle}
+        >
+          {handle}
+        </a>
+      ) : (
+        <span className={textClassName} style={textStyle}>
+          {handle}
+        </span>
+      )}
     </div>
   );
 }
