@@ -1,37 +1,86 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
-import type { Talent, TalentInsert, TalentUpdate } from "@/types";
+import {
+  ensureTalentCategories,
+  getTalentCategories,
+  normalizeCategoryNames,
+} from "@/lib/talent-categories";
+import type { Talent, TalentCategory, TalentInsert, TalentUpdate } from "@/types";
+
+function getTalentCategoryRank(
+  talent: Pick<Talent, "categories" | "name">,
+  categories: TalentCategory[],
+) {
+  const categoryOrder = new Map(
+    categories.map((category, index) => [category.name.toLowerCase(), index]),
+  );
+
+  return Math.min(
+    ...normalizeCategoryNames(talent.categories)
+      .map((name) => categoryOrder.get(name.toLowerCase()) ?? Number.POSITIVE_INFINITY),
+    Number.POSITIVE_INFINITY,
+  );
+}
+
+function sortTalentsByCategoryOrder(
+  talents: Talent[],
+  categories: TalentCategory[],
+) {
+  return [...talents].sort((a, b) => {
+    const categoryComparison =
+      getTalentCategoryRank(a, categories) - getTalentCategoryRank(b, categories);
+
+    if (categoryComparison !== 0) {
+      return categoryComparison;
+    }
+
+    return a.name.localeCompare(b.name, undefined, { sensitivity: "base" });
+  });
+}
+
+async function normalizeTalentPayload<T extends TalentInsert | TalentUpdate>(
+  data: T,
+) {
+  if (!("categories" in data)) return data;
+
+  const categories = normalizeCategoryNames(data.categories);
+  await ensureTalentCategories(categories);
+
+  return {
+    ...data,
+    categories,
+  };
+}
 
 export async function getTalentsForMarquee(
   count: number,
 ): Promise<Talent[]> {
   const supabase = await createClient();
+  const categories = await getTalentCategories();
   const { data: featuredTalents, error: featuredError } = await supabase
     .from("talents")
     .select("*")
     .eq("featured", true)
-    .order("created_at", { ascending: true })
-    .limit(count);
+    .order("name", { ascending: true });
 
   if (featuredError) {
     throw new Error(featuredError.message);
   }
 
   if (featuredTalents.length > 0) {
-    return featuredTalents;
+    return sortTalentsByCategoryOrder(featuredTalents, categories).slice(0, count);
   }
 
   const { data, error } = await supabase
     .from("talents")
     .select("*")
-    .order("created_at", { ascending: true })
-    .limit(count);
+    .order("name", { ascending: true });
 
   if (error) {
     throw new Error(error.message);
   }
 
-  return data;
+  return sortTalentsByCategoryOrder(data, categories).slice(0, count);
 }
 
 export async function getTalentsPaginated(
@@ -71,23 +120,13 @@ export async function getTalentsPaginated(
 }
 
 export async function getCategories(): Promise<string[]> {
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("talents")
-    .select("categories")
-    .not("categories", "is", null);
-
-  if (error) {
-    throw new Error(error.message);
-  }
-
-  return Array.from(
-    new Set(data.flatMap((talent) => talent.categories ?? [])),
-  ).sort((a, b) => a.localeCompare(b));
+  const categories = await getTalentCategories();
+  return categories.map((category) => category.name);
 }
 
 export async function getTalents(): Promise<Talent[]> {
   const supabase = await createClient();
+  const categories = await getTalentCategories();
   const { data, error } = await supabase
     .from("talents")
     .select("*")
@@ -98,7 +137,7 @@ export async function getTalents(): Promise<Talent[]> {
     throw new Error(error.message);
   }
 
-  return data;
+  return sortTalentsByCategoryOrder(data, categories);
 }
 
 export async function getTalent(id: string): Promise<Talent | null> {
@@ -118,9 +157,10 @@ export async function getTalent(id: string): Promise<Talent | null> {
 
 export async function createTalent(data: TalentInsert): Promise<Talent> {
   const supabase = createAdminClient();
+  const payload = await normalizeTalentPayload(data);
   const { data: talent, error } = await supabase
     .from("talents")
-    .insert(data)
+    .insert(payload)
     .select()
     .single();
 
@@ -136,9 +176,10 @@ export async function updateTalent(
   data: TalentUpdate,
 ): Promise<Talent> {
   const supabase = createAdminClient();
+  const payload = await normalizeTalentPayload(data);
   const { data: talent, error } = await supabase
     .from("talents")
-    .update(data)
+    .update(payload)
     .eq("id", id)
     .select()
     .single();

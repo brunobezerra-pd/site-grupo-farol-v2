@@ -18,8 +18,26 @@ import {
 } from "@/components/ui/card";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import type { Talent } from "@/types";
+
+const PAGE_SIZE_OPTIONS = [5, 10, 20, 50, 100];
 
 type TalentsAdminProps = {
   initialTalents: Talent[];
@@ -36,6 +54,8 @@ export function TalentsAdmin({
   const [featuredOnlyFilter, setFeaturedOnlyFilter] = useState(false);
   const [showImport, setShowImport] = useState(false);
   const [marqueeCount, setMarqueeCount] = useState(initialMarqueeCount);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const [isPending, startTransition] = useTransition();
 
   const featuredCount = useMemo(
@@ -72,6 +92,47 @@ export function TalentsAdmin({
       return sortDir === "asc" ? cmp : -cmp;
     });
   }, [initialTalents, query, sortDir, pendingPhotoFilter, featuredOnlyFilter]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredTalents.length / pageSize));
+  const safePage = Math.min(currentPage, totalPages);
+  const paginatedTalents = filteredTalents.slice(
+    (safePage - 1) * pageSize,
+    safePage * pageSize,
+  );
+  const pageStart = filteredTalents.length === 0 ? 0 : (safePage - 1) * pageSize + 1;
+  const pageEnd = Math.min(safePage * pageSize, filteredTalents.length);
+  const pageItems = getVisiblePageItems(safePage, totalPages);
+
+  function updateQuery(value: string) {
+    setQuery(value);
+    setCurrentPage(1);
+  }
+
+  function updatePageSize(value: string | null) {
+    if (!value) return;
+
+    setPageSize(Number(value));
+    setCurrentPage(1);
+  }
+
+  function togglePendingPhotoFilter() {
+    setPendingPhotoFilter((value) => !value);
+    setCurrentPage(1);
+  }
+
+  function toggleFeaturedOnlyFilter() {
+    setFeaturedOnlyFilter((value) => !value);
+    setCurrentPage(1);
+  }
+
+  function toggleSortDir() {
+    setSortDir((value) => (value === "asc" ? "desc" : "asc"));
+    setCurrentPage(1);
+  }
+
+  function selectPage(page: number) {
+    setCurrentPage(Math.min(Math.max(page, 1), totalPages));
+  }
 
   function saveMarqueeCount() {
     startTransition(async () => {
@@ -128,7 +189,7 @@ export function TalentsAdmin({
             {pendingCount > 0 && (
               <button
                 type="button"
-                onClick={() => setPendingPhotoFilter((f) => !f)}
+                onClick={togglePendingPhotoFilter}
                 className={cn(
                   "inline-flex shrink-0 items-center rounded-full pl-2 pr-2.5 py-1 text-xs font-medium transition-colors",
                   pendingPhotoFilter
@@ -159,7 +220,7 @@ export function TalentsAdmin({
               <SearchIcon className="pointer-events-none absolute left-2.5 top-2 text-muted-foreground" />
               <Input
                 value={query}
-                onChange={(event) => setQuery(event.target.value)}
+                onChange={(event) => updateQuery(event.target.value)}
                 placeholder="Buscar por nome"
                 className="pl-8"
               />
@@ -167,7 +228,7 @@ export function TalentsAdmin({
             <Button
               type="button"
               variant="ghost"
-              onClick={() => setSortDir((d) => (d === "asc" ? "desc" : "asc"))}
+              onClick={toggleSortDir}
             >
               {sortDir === "asc" ? (
                 <ArrowUpNarrowWideIcon data-icon="inline-start" />
@@ -180,7 +241,7 @@ export function TalentsAdmin({
               <Button
                 type="button"
                 variant={featuredOnlyFilter ? "default" : "outline"}
-                onClick={() => setFeaturedOnlyFilter((value) => !value)}
+                onClick={toggleFeaturedOnlyFilter}
               >
                 <StarIcon data-icon="inline-start" />
                 Destaques
@@ -197,7 +258,7 @@ export function TalentsAdmin({
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-            {filteredTalents.map((talent) => (
+            {paginatedTalents.map((talent) => (
               <Link
                 key={talent.id}
                 href={`/admin/talents/${talent.id}`}
@@ -243,8 +304,103 @@ export function TalentsAdmin({
               </Link>
             ))}
           </div>
+
+          <div className="flex flex-col items-center justify-between gap-3 border-t pt-4 sm:flex-row">
+            <p className="text-sm text-muted-foreground">
+              Mostrando {pageStart}-{pageEnd} de {filteredTalents.length} talentos
+            </p>
+
+            <div className="flex flex-col items-center gap-3 sm:flex-row">
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">Por página</span>
+                <Select value={String(pageSize)} onValueChange={updatePageSize}>
+                  <SelectTrigger size="sm" className="w-20">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {PAGE_SIZE_OPTIONS.map((option) => (
+                      <SelectItem key={option} value={String(option)}>
+                        {option}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <Pagination className="w-auto">
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      href="#"
+                      text="Anterior"
+                      aria-disabled={safePage === 1}
+                      tabIndex={safePage === 1 ? -1 : undefined}
+                      className={cn(
+                        safePage === 1 && "pointer-events-none opacity-50",
+                      )}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        selectPage(safePage - 1);
+                      }}
+                    />
+                  </PaginationItem>
+                  {pageItems.map((item) => (
+                    <PaginationItem key={item}>
+                      {typeof item === "number" ? (
+                        <PaginationLink
+                          href="#"
+                          isActive={item === safePage}
+                          onClick={(event) => {
+                            event.preventDefault();
+                            selectPage(item);
+                          }}
+                        >
+                          {item}
+                        </PaginationLink>
+                      ) : (
+                        <PaginationEllipsis />
+                      )}
+                    </PaginationItem>
+                  ))}
+                  <PaginationItem>
+                    <PaginationNext
+                      href="#"
+                      text="Próxima"
+                      aria-disabled={safePage === totalPages}
+                      tabIndex={safePage === totalPages ? -1 : undefined}
+                      className={cn(
+                        safePage === totalPages && "pointer-events-none opacity-50",
+                      )}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        selectPage(safePage + 1);
+                      }}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          </div>
         </CardContent>
       </Card>
     </div>
   );
+}
+
+function getVisiblePageItems(currentPage: number, totalPages: number) {
+  const pageNumbers = Array.from(
+    new Set([1, currentPage - 1, currentPage, currentPage + 1, totalPages]),
+  )
+    .filter((page) => page >= 1 && page <= totalPages)
+    .sort((a, b) => a - b);
+
+  return pageNumbers.flatMap((page, index) => {
+    const previousPage = pageNumbers[index - 1];
+
+    if (previousPage && page - previousPage > 1) {
+      return [`ellipsis-${previousPage}-${page}`, page];
+    }
+
+    return [page];
+  });
 }

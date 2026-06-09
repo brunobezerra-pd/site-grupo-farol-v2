@@ -1,14 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import {
   ArrowLeftIcon,
   ChevronDownIcon,
-  PlusIcon,
   SaveIcon,
   Trash2Icon,
   UserIcon,
-  XIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -17,7 +15,6 @@ import { toast } from "sonner";
 import {
   createTalentAction,
   deleteTalentAction,
-  getCategoriesAction,
   updateTalentAction,
 } from "@/app/admin/actions";
 import { ImageUpload } from "@/components/admin/ImageUpload";
@@ -49,18 +46,19 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import type { Talent, TalentInsert, TalentUpdate } from "@/types";
+import type { Talent, TalentCategory, TalentInsert, TalentUpdate } from "@/types";
 
 type TalentFormProps = {
+  categories: TalentCategory[];
   talent: Talent | null;
 };
 
-export function TalentForm({ talent }: TalentFormProps) {
+export function TalentForm({ categories, talent }: TalentFormProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [form, setForm] = useState({
     name: talent?.name ?? "",
-    categories: (talent?.categories ?? []).join(", "),
+    categories: talent?.categories ?? [],
     featured: Boolean(talent?.featured),
     photo_url: talent?.photo_url ?? "",
     description: talent?.description ?? "",
@@ -77,39 +75,6 @@ export function TalentForm({ talent }: TalentFormProps) {
     of_age: Boolean(talent?.of_age),
     has_children: Boolean(talent?.has_children),
   });
-  const [chipInput, setChipInput] = useState("");
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [allCategories, setAllCategories] = useState<string[]>([]);
-  const [categoriesFetched, setCategoriesFetched] = useState(false);
-  const categoryContainerRef = useRef<HTMLDivElement>(null);
-  const categoryInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        categoryContainerRef.current &&
-        !categoryContainerRef.current.contains(event.target as Node)
-      ) {
-        setDropdownOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  async function openDropdown() {
-    setDropdownOpen(true);
-    if (!categoriesFetched) {
-      const cats = await getCategoriesAction();
-      setAllCategories(cats);
-      setCategoriesFetched(true);
-    }
-  }
-
-  const chips = form.categories
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
 
   function updateField<Key extends keyof typeof form>(
     key: Key,
@@ -118,30 +83,19 @@ export function TalentForm({ talent }: TalentFormProps) {
     setForm((current) => ({ ...current, [key]: value }));
   }
 
-  function addChip(value: string) {
-    const trimmed = value.trim();
-    if (!trimmed || chips.includes(trimmed)) {
-      setChipInput("");
-      return;
-    }
-    updateField("categories", [...chips, trimmed].join(", "));
-    setChipInput("");
-  }
-
-  function removeChip(chip: string) {
+  function toggleCategory(categoryName: string) {
     updateField(
       "categories",
-      chips.filter((c) => c !== chip).join(", "),
+      form.categories.includes(categoryName)
+        ? form.categories.filter((name) => name !== categoryName)
+        : [...form.categories, categoryName],
     );
   }
 
   function buildPayload(): TalentInsert | TalentUpdate {
     return {
       name: form.name,
-      categories: form.categories
-        .split(",")
-        .map((category) => category.trim())
-        .filter(Boolean),
+      categories: form.categories,
       featured: form.featured,
       photo_url: form.photo_url,
       description: form.description,
@@ -291,124 +245,60 @@ export function TalentForm({ talent }: TalentFormProps) {
                   />
                 </Field>
 
-                {/* Categorias — combobox com chips */}
+                {/* Categorias */}
                 <Field>
                   <FieldLabel>Categorias</FieldLabel>
-                  <div ref={categoryContainerRef} className="relative">
-                    {/* Input area */}
-                    <div
-                      className="flex min-h-9 flex-wrap items-center gap-1.5 rounded-lg border border-input bg-background px-2.5 py-1.5 text-sm transition-shadow focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50 cursor-text"
-                      onClick={() => categoryInputRef.current?.focus()}
-                    >
-                      {chips.map((chip) => (
-                        <span
-                          key={chip}
-                          className="inline-flex items-center gap-1 rounded-md border border-input bg-muted px-2 py-0.5 text-xs font-medium"
-                        >
-                          {chip}
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              removeChip(chip);
-                            }}
-                            className="ml-0.5 rounded hover:text-destructive focus:outline-none"
-                          >
-                            <XIcon className="size-3" />
-                          </button>
-                        </span>
-                      ))}
-                      <input
-                        ref={categoryInputRef}
-                        type="text"
-                        value={chipInput}
-                        onChange={(e) => {
-                          setChipInput(e.target.value);
-                          if (!dropdownOpen) setDropdownOpen(true);
-                        }}
-                        onFocus={openDropdown}
-                        onKeyDown={(e) => {
-                          if (e.key === "Escape") {
-                            e.preventDefault();
-                            setDropdownOpen(false);
-                            return;
-                          }
-                          if (e.key === "Enter") {
-                            e.preventDefault();
-                            if (chipInput.trim()) addChip(chipInput);
-                            return;
-                          }
-                          if (
-                            e.key === "Backspace" &&
-                            chipInput === "" &&
-                            chips.length > 0
-                          ) {
-                            removeChip(chips[chips.length - 1]);
-                          }
-                        }}
-                        placeholder={
-                          chips.length === 0
-                            ? "Buscar ou criar categoria..."
-                            : ""
-                        }
-                        className="min-w-[160px] flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
-                      />
-                    </div>
+                  {categories.length > 0 ? (
+                    <div className="flex flex-wrap gap-2 rounded-lg border border-input bg-background p-2">
+                      {categories.map((category) => {
+                        const selected = form.categories.includes(category.name);
 
-                    {/* Dropdown */}
-                    {dropdownOpen && (() => {
-                      const filtered = allCategories.filter(
-                        (cat) =>
-                          !chips.includes(cat) &&
-                          cat.toLowerCase().includes(chipInput.trim().toLowerCase()),
-                      );
-                      const showCreate =
-                        chipInput.trim().length > 0 &&
-                        !chips.includes(chipInput.trim()) &&
-                        !allCategories.some(
-                          (c) =>
-                            c.toLowerCase() === chipInput.trim().toLowerCase(),
+                        return (
+                          <button
+                            key={category.id}
+                            type="button"
+                            onClick={() => toggleCategory(category.name)}
+                            className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition-all ${
+                              selected
+                                ? "border-transparent text-[#1a1a1a] shadow-sm"
+                                : "border-input bg-background text-muted-foreground hover:text-foreground"
+                            }`}
+                            style={{
+                              backgroundColor: selected ? category.color : undefined,
+                            }}
+                            aria-pressed={selected}
+                          >
+                            {category.name}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="rounded-lg border border-dashed px-4 py-6 text-sm text-muted-foreground">
+                      Cadastre categorias em Talentos › Categorias para selecionar aqui.
+                    </div>
+                  )}
+                  {form.categories.length > 0 ? (
+                    <div className="flex flex-wrap gap-1.5 pt-2">
+                      {form.categories.map((categoryName) => {
+                        const category = categories.find(
+                          (item) => item.name === categoryName,
                         );
 
-                      if (filtered.length === 0 && !showCreate) return null;
-
-                      return (
-                        <div className="absolute left-0 right-0 top-full z-50 mt-1 max-h-52 overflow-auto rounded-lg border bg-popover shadow-md">
-                          {filtered.map((cat) => (
-                            <button
-                              key={cat}
-                              type="button"
-                              className="flex w-full items-center px-3 py-1.5 text-left text-sm hover:bg-accent hover:text-accent-foreground"
-                              onMouseDown={(e) => {
-                                e.preventDefault();
-                                addChip(cat);
-                                setChipInput("");
-                                setDropdownOpen(true);
-                              }}
-                            >
-                              {cat}
-                            </button>
-                          ))}
-                          {showCreate && (
-                            <button
-                              type="button"
-                              className="flex w-full items-center gap-1.5 border-t px-3 py-1.5 text-left text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                              onMouseDown={(e) => {
-                                e.preventDefault();
-                                addChip(chipInput);
-                              }}
-                            >
-                              <PlusIcon className="size-3.5 shrink-0" />
-                              Criar:{" "}
-                              <span className="font-medium text-foreground">
-                                {chipInput.trim()}
-                              </span>
-                            </button>
-                          )}
-                        </div>
-                      );
-                    })()}
-                  </div>
+                        return (
+                          <span
+                            key={categoryName}
+                            className="rounded-full px-2 py-0.5 text-[11px] font-medium text-[#1a1a1a]"
+                            style={{
+                              backgroundColor: category?.color ?? "#d1d362",
+                            }}
+                          >
+                            {categoryName}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  ) : null}
                 </Field>
 
                 {/* Destaque toggle — bordered */}

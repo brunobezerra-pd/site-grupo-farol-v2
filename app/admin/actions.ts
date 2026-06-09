@@ -5,6 +5,13 @@ import { revalidatePath } from "next/cache";
 import { setSetting, setSettings } from "@/lib/settings";
 import { createAdminClient } from "@/lib/supabase/admin";
 import {
+  createTalentCategory,
+  deleteTalentCategory,
+  getTalentCategories,
+  updateTalentCategory,
+  updateTalentCategorySortOrders,
+} from "@/lib/talent-categories";
+import {
   createHeroMediaItem,
   deleteHeroMediaItem,
   updateHeroMediaItem,
@@ -21,6 +28,8 @@ import type {
   HeroMediaItem,
   HeroMediaItemInsert,
   HeroMediaItemUpdate,
+  TalentCategoryInsert,
+  TalentCategoryUpdate,
   TalentInsert,
   TalentUpdate,
 } from "@/types";
@@ -90,15 +99,23 @@ export async function updatePartnerSortOrdersAction(
 }
 
 export async function createTalentAction(data: TalentInsert) {
-  return createTalent(data);
+  const talent = await createTalent(data);
+  revalidatePath("/");
+  revalidatePath("/casting");
+  return talent;
 }
 
 export async function updateTalentAction(id: string, data: TalentUpdate) {
-  return updateTalent(id, data);
+  const talent = await updateTalent(id, data);
+  revalidatePath("/");
+  revalidatePath("/casting");
+  return talent;
 }
 
 export async function deleteTalentAction(id: string) {
   await deleteTalent(id);
+  revalidatePath("/");
+  revalidatePath("/casting");
 }
 
 export async function inviteUserAction(email: string) {
@@ -159,4 +176,64 @@ export async function importTalentPhoto(photoUrl: string, talentName: string) {
 
 export async function getCategoriesAction(): Promise<string[]> {
   return getCategories();
+}
+
+export async function getTalentCategoriesAction() {
+  return getTalentCategories();
+}
+
+export async function createTalentCategoryAction(data: TalentCategoryInsert) {
+  const category = await createTalentCategory(data);
+  revalidatePath("/");
+  revalidatePath("/casting");
+  revalidatePath("/admin/talents/categories");
+  return category;
+}
+
+export async function updateTalentCategoryAction(
+  id: string,
+  data: TalentCategoryUpdate,
+) {
+  const category = await updateTalentCategory(id, data);
+  revalidatePath("/");
+  revalidatePath("/casting");
+  revalidatePath("/admin/talents/categories");
+  return category;
+}
+
+export async function updateTalentCategorySortOrdersAction(
+  items: Array<{ id: string; sort_order: number }>,
+) {
+  await updateTalentCategorySortOrders(items);
+  revalidatePath("/");
+  revalidatePath("/casting");
+  revalidatePath("/admin/talents/categories");
+}
+
+export async function updateTalentCategoriesAction(
+  items: Array<{
+    color: string;
+    id: string;
+    name: string;
+    sort_order: number;
+  }>,
+) {
+  for (const item of items) {
+    await updateTalentCategory(item.id, {
+      color: item.color,
+      name: item.name,
+      sort_order: item.sort_order,
+    });
+  }
+
+  revalidatePath("/");
+  revalidatePath("/casting");
+  revalidatePath("/admin/talents/categories");
+}
+
+export async function deleteTalentCategoryAction(id: string) {
+  await deleteTalentCategory(id);
+  revalidatePath("/");
+  revalidatePath("/casting");
+  revalidatePath("/admin/talents/categories");
 }

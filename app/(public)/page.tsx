@@ -12,6 +12,7 @@ import { TalentsMarquee } from "@/components/public/TalentsMarquee";
 import { getHeroMediaItems } from "@/lib/hero-media";
 import { getPartners } from "@/lib/partners";
 import { getSettings } from "@/lib/settings";
+import { getTalentCategories } from "@/lib/talent-categories";
 import { getTalentsForMarquee } from "@/lib/talents";
 
 const SETTINGS_KEYS = [
@@ -79,7 +80,8 @@ export default async function HomePage() {
   const heroVersion = settings.hero_version === "v2" ? "v2" : "v1";
   const aboutVersion = settings.about_version === "v2" ? "v2" : "v1";
 
-  const [talents, partners, heroMediaItems] = await Promise.all([
+  const [categories, talents, partners, heroMediaItems] = await Promise.all([
+    getTalentCategories(),
     getTalentsForMarquee(Number.isFinite(marqueeCount) ? marqueeCount : 10),
     getPartners(),
     heroVersion === "v2" ? getHeroMediaItems() : Promise.resolve([]),
@@ -98,7 +100,7 @@ export default async function HomePage() {
       )}
       {aboutVersion === "v2" ? <AboutV2 /> : <About />}
       <Creators />
-      <TalentsMarquee talents={talents} />
+      <TalentsMarquee categories={categories} talents={talents} />
       <HowWeWork />
       <Partners partners={partners} />
       <CTA

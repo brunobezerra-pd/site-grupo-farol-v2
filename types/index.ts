@@ -29,6 +29,26 @@ export type TalentInsert = Partial<Omit<Talent, "id" | "name" | "created_at">> &
 
 export type TalentUpdate = Partial<TalentInsert>;
 
+export type TalentCategory = {
+  id: string;
+  name: string;
+  color: string;
+  sort_order: number;
+  created_at: string | null;
+  updated_at: string | null;
+};
+
+export type TalentCategoryInsert = {
+  id?: string;
+  name: string;
+  color?: string;
+  sort_order?: number;
+  created_at?: string;
+  updated_at?: string;
+};
+
+export type TalentCategoryUpdate = Partial<TalentCategoryInsert>;
+
 export type Partner = {
   id: string;
   logo_url: string;
@@ -91,6 +111,11 @@ export type Database = {
   public: {
     Tables: {
       talents: TableDefinition<Talent, TalentInsert, TalentUpdate>;
+      talent_categories: TableDefinition<
+        TalentCategory,
+        TalentCategoryInsert,
+        TalentCategoryUpdate
+      >;
       partners: TableDefinition<
         Partner,
         PartnerInsert,

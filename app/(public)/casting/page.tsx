@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { CastingExplorer } from "@/components/public/CastingExplorer";
+import { getTalentCategories } from "@/lib/talent-categories";
 import { getTalents } from "@/lib/talents";
 
 export const revalidate = 60;
@@ -12,7 +13,10 @@ export const metadata: Metadata = {
 };
 
 export default async function CastingPage() {
-  const talents = await getTalents();
+  const [categories, talents] = await Promise.all([
+    getTalentCategories(),
+    getTalents(),
+  ]);
 
   return (
     <main className="min-h-screen bg-[#b9323b] text-[#1a1a1a]">
@@ -33,7 +37,7 @@ export default async function CastingPage() {
             </h1>
           </div>
 
-          <CastingExplorer talents={talents} />
+          <CastingExplorer categories={categories} talents={talents} />
         </div>
       </section>
     </main>

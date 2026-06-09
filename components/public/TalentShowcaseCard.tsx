@@ -2,7 +2,7 @@
 
 import { forwardRef } from "react";
 
-import type { Talent } from "@/types";
+import type { Talent, TalentCategory } from "@/types";
 
 const STAMP_COLORS = ["#d1d362", "#d96837", "#5c8dc9"];
 
@@ -48,8 +48,28 @@ function getSocialProfileUrl(url: string | null, type: "instagram" | "tiktok") {
   return null;
 }
 
-function getCategoryParts(talent: Talent) {
-  return (talent.categories?.[0] || "Creator")
+function getPrimaryCategory(
+  talent: Talent,
+  categories: TalentCategory[],
+  fallbackIndex: number,
+) {
+  const categoryByName = new Map(
+    categories.map((category) => [category.name.toLowerCase(), category]),
+  );
+  const assignedCategories = (talent.categories ?? [])
+    .map((name) => categoryByName.get(name.toLowerCase()))
+    .filter((category): category is TalentCategory => Boolean(category))
+    .sort((a, b) => a.sort_order - b.sort_order || a.name.localeCompare(b.name));
+  const primaryCategory = assignedCategories[0];
+
+  return {
+    color: primaryCategory?.color ?? STAMP_COLORS[fallbackIndex % STAMP_COLORS.length],
+    name: primaryCategory?.name ?? talent.categories?.[0] ?? "Creator",
+  };
+}
+
+function getCategoryParts(categoryName: string) {
+  return categoryName
     .normalize("NFKC")
     .split("/")
     .map((part) => part.trim())
@@ -64,13 +84,15 @@ type TalentShowcaseCardProps = {
   talent: Talent;
   index: number;
   className?: string;
+  categories?: TalentCategory[];
   onHoverChange?: (isHovered: boolean) => void;
   mobileBadge?: "stamp" | "pill";
 };
 
 export const TalentShowcaseCard = forwardRef<HTMLElement, TalentShowcaseCardProps>(
-  function TalentShowcaseCard({ talent, index, className = "", onHoverChange, mobileBadge }, ref) {
-    const categoryParts = getCategoryParts(talent);
+  function TalentShowcaseCard({ talent, index, className = "", categories = [], onHoverChange, mobileBadge }, ref) {
+    const primaryCategory = getPrimaryCategory(talent, categories, index);
+    const categoryParts = getCategoryParts(primaryCategory.name);
     const category = categoryParts.join("\n");
     const categorySize =
       categoryParts.length > 2
@@ -143,7 +165,7 @@ export const TalentShowcaseCard = forwardRef<HTMLElement, TalentShowcaseCardProp
         <div
           className={`absolute flex aspect-square w-[var(--talent-stamp-size,30.126%)] items-center justify-center rounded-full p-[var(--talent-stamp-pad,2.01%)]${mobileBadge === "pill" ? " max-md:hidden" : ""}`}
           style={{
-            backgroundColor: STAMP_COLORS[index % STAMP_COLORS.length],
+            backgroundColor: primaryCategory.color,
             left: "var(--talent-stamp-left, 84.96%)",
             top: "var(--talent-stamp-top, -9.41%)",
           }}
@@ -160,7 +182,7 @@ export const TalentShowcaseCard = forwardRef<HTMLElement, TalentShowcaseCardProp
           <div
             className="absolute md:hidden flex rounded-[99px] items-center justify-center"
             style={{
-              backgroundColor: STAMP_COLORS[index % STAMP_COLORS.length],
+              backgroundColor: primaryCategory.color,
               right: "var(--talent-mobile-badge-right, -0.719rem)",
               top: "var(--talent-mobile-badge-top, -0.719rem)",
               paddingTop: "var(--talent-mobile-badge-pt, 0.129rem)",

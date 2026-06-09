@@ -9,6 +9,7 @@ import {
   SearchIcon,
   ShieldIcon,
   SparklesIcon,
+  TagsIcon,
   UsersIcon,
 } from "lucide-react";
 import Image from "next/image";
@@ -31,6 +32,12 @@ const navItems = [
   { href: "/admin/hero", label: "Hero", icon: HomeIcon },
   { href: "/admin/about", label: "Sobre", icon: InfoIcon },
   { href: "/admin/talents", label: "Talentos", icon: UsersIcon },
+  {
+    href: "/admin/talents/categories",
+    label: "Categorias",
+    icon: TagsIcon,
+    nested: true,
+  },
   { href: "/admin/partners", label: "Parceiros", icon: SparklesIcon },
   { href: "/admin/cta", label: "CTA", icon: MousePointerClickIcon },
   { href: "/admin/seo", label: "SEO", icon: SearchIcon },
@@ -83,8 +90,12 @@ export function AppSidebar({ userEmail, userName, ...props }: AppSidebarProps) {
         <nav className="flex flex-col gap-0.5 px-3 py-2 group-data-[collapsible=icon]:px-2">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive =
-              pathname === item.href || pathname.startsWith(`${item.href}/`);
+            const isNested = "nested" in item && item.nested;
+            const isActive = isNested
+              ? pathname === item.href || pathname.startsWith(`${item.href}/`)
+              : pathname === item.href ||
+                (pathname.startsWith(`${item.href}/`) &&
+                  pathname !== "/admin/talents/categories");
 
             return (
               <Link
@@ -96,6 +107,8 @@ export function AppSidebar({ userEmail, userName, ...props }: AppSidebarProps) {
                   isActive
                     ? "border-l-2 border-primary bg-[#1c1c1c] pl-[10px] pr-3 py-2 text-white group-data-[collapsible=icon]:border-l-0 group-data-[collapsible=icon]:bg-[#1c1c1c]"
                     : "px-3 py-2 text-[#666] hover:bg-[#161616] hover:text-[#999]",
+                  isNested &&
+                    "ml-5 text-xs group-data-[collapsible=icon]:ml-0",
                 )}
               >
                 <Icon className="size-4 shrink-0" />

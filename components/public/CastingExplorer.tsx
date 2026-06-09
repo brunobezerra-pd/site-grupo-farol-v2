@@ -7,22 +7,22 @@ import {
   TALENT_SHOWCASE_MOBILE_CARD_CLASS,
   TalentShowcaseCard,
 } from "@/components/public/TalentShowcaseCard";
-import type { Talent } from "@/types";
+import type { Talent, TalentCategory } from "@/types";
 
 const PAGE_SIZE = 20;
 
 type CastingExplorerProps = {
+  categories: TalentCategory[];
   talents: Talent[];
 };
 
-function getTalentCategoryParts(talent: Talent) {
+function getTalentCategoryNames(talent: Talent) {
   return (talent.categories ?? [])
-    .flatMap((category) => category.split("/"))
     .map((part) => part.trim())
     .filter(Boolean);
 }
 
-export function CastingExplorer({ talents }: CastingExplorerProps) {
+export function CastingExplorer({ categories: categoryDefinitions, talents }: CastingExplorerProps) {
   const categoriesTopRef = useRef<HTMLDivElement>(null);
   const listTopRef = useRef<HTMLDivElement>(null);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -30,18 +30,25 @@ export function CastingExplorer({ talents }: CastingExplorerProps) {
   const [isChanging, setIsChanging] = useState(false);
 
   const categories = useMemo(
-    () =>
-      Array.from(new Set(talents.flatMap(getTalentCategoryParts))).sort((a, b) =>
-        a.localeCompare(b),
-      ),
-    [talents],
+    () => {
+      const talentCategoryNames = new Set(talents.flatMap(getTalentCategoryNames));
+      const managedCategoryNames = categoryDefinitions
+        .filter((category) => talentCategoryNames.has(category.name))
+        .map((category) => category.name);
+      const unmanagedCategoryNames = Array.from(talentCategoryNames)
+        .filter((category) => !managedCategoryNames.includes(category))
+        .sort((a, b) => a.localeCompare(b));
+
+      return [...managedCategoryNames, ...unmanagedCategoryNames];
+    },
+    [categoryDefinitions, talents],
   );
 
   const filteredTalents = useMemo(() => {
     if (!activeCategory) return talents;
 
     return talents.filter((talent) =>
-      getTalentCategoryParts(talent).includes(activeCategory),
+      getTalentCategoryNames(talent).includes(activeCategory),
     );
   }, [activeCategory, talents]);
 
@@ -111,6 +118,7 @@ export function CastingExplorer({ talents }: CastingExplorerProps) {
               <TalentShowcaseCard
                 key={talent.id}
                 talent={talent}
+                categories={categoryDefinitions}
                 index={index}
                 className={`w-full max-w-[22.372rem] ${TALENT_SHOWCASE_MOBILE_CARD_CLASS} md:max-w-none`}
                 mobileBadge="pill"

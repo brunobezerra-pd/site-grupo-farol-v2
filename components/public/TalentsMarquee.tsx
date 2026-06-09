@@ -8,9 +8,10 @@ import {
   TALENT_SHOWCASE_MOBILE_CARD_CLASS,
   TalentShowcaseCard,
 } from "@/components/public/TalentShowcaseCard";
-import type { Talent } from "@/types";
+import type { Talent, TalentCategory } from "@/types";
 
 type TalentsMarqueeProps = {
+  categories: TalentCategory[];
   talents: Talent[];
 };
 
@@ -41,7 +42,7 @@ function CarouselButton({
   );
 }
 
-export function TalentsMarquee({ talents }: TalentsMarqueeProps) {
+export function TalentsMarquee({ categories, talents }: TalentsMarqueeProps) {
   const carouselItems = talents;
   const loopItems = [...carouselItems, ...carouselItems, ...carouselItems];
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -175,6 +176,7 @@ export function TalentsMarquee({ talents }: TalentsMarqueeProps) {
                 <TalentShowcaseCard
                   key={`${talent.id}-${index}`}
                   talent={talent}
+                  categories={categories}
                   index={index % carouselItems.length}
                   className={`w-[22.372rem] ${TALENT_SHOWCASE_MOBILE_CARD_CLASS} md:max-xl:w-[31.12rem] xl:w-[29.638%]`}
                   mobileBadge="pill"
