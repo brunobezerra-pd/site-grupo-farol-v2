@@ -1,7 +1,6 @@
 "use client";
 
 import { forwardRef } from "react";
-import { Camera, Music2 } from "lucide-react";
 
 import type { Talent } from "@/types";
 
@@ -122,7 +121,7 @@ export const TalentShowcaseCard = forwardRef<HTMLElement, TalentShowcaseCardProp
           <h3
             className="w-full truncate font-agharti-bsc-display uppercase leading-none text-[#1a1a1a]"
             style={{
-              fontSize: "var(--talent-name-size, clamp(3.25rem, 19.25cqw, 6rem))",
+              fontSize: "var(--talent-name-size, clamp(2.70rem, 16.01cqw, 4.99rem))",
             }}
           >
             {name}
@@ -192,14 +191,13 @@ function SocialHandle({
   handle: string;
   href: string | null;
 }) {
-  const Icon = type === "instagram" ? Camera : Music2;
   const textClassName = "truncate font-heading italic leading-normal text-[#1a1a1a]";
   const textStyle = { fontSize: "var(--talent-handle-size, clamp(0.75rem, 3.73cqw, 1.162rem))" };
 
   return (
     <div className="flex min-w-0 flex-1 items-center gap-[0.359rem] md:gap-2">
       <span className="flex size-[var(--talent-social-icon-size,7.84cqw)] max-h-[39.043px] max-w-[39.043px] min-h-6 min-w-6 max-md:min-h-[1.078rem] max-md:min-w-[1.078rem] shrink-0 items-center justify-center rounded-full bg-[#1a1a1a] text-[#fff2e7]">
-        <Icon className="size-[58%]" strokeWidth={2.5} />
+        <SocialIcon type={type} />
       </span>
       {href ? (
         <a
@@ -217,5 +215,31 @@ function SocialHandle({
         </span>
       )}
     </div>
+  );
+}
+
+function SocialIcon({ type }: { type: "instagram" | "tiktok" }) {
+  if (type === "instagram") {
+    return (
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        className="size-[58%]"
+        fill="currentColor"
+      >
+        <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2Zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4H7.6Zm9.65 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="size-[58%]"
+      fill="currentColor"
+    >
+      <path d="M16.6 5.82a4.58 4.58 0 0 0 2.85.99V9a6.8 6.8 0 0 1-2.85-.62v5.87A5.25 5.25 0 1 1 11.35 9c.27 0 .53.02.78.06v2.24a3.08 3.08 0 1 0 2.34 2.99V2h2.13c.2 1.46.93 2.73 2.05 3.64a4.6 4.6 0 0 1-2.05-3.64v3.82Z" />
+    </svg>
   );
 }
