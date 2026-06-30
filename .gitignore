@@ -63,3 +63,11 @@ next-env.d.ts
 .cache/
 tmp/
 temp/
+
+# non-essential documentation and project files
+PRD.md
+CLAUDE.md
+AGENTS.md
+SPEC.md
+ISSUES*.md
+supabase/storage_setup.md
