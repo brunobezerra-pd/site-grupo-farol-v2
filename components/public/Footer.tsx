@@ -99,23 +99,29 @@ export function Footer({ scriptFooter }: FooterProps) {
           </nav>
         </div>
 
-        <div className="relative h-[16.303rem] w-full bg-[#d9d9d9] md:max-xl:h-[25.082rem] md:max-xl:w-[40rem] xl:h-[clamp(25rem,25.833vw,31rem)] xl:w-[clamp(38rem,41.198vw,49.4375rem)]" />
+        {scriptFooter ? (
+          <div className="relative h-[16.303rem] w-full bg-[#d9d9d9] md:max-xl:h-[25.082rem] md:max-xl:w-[40rem] xl:h-[clamp(25rem,25.833vw,31rem)] xl:w-[clamp(38rem,41.198vw,49.4375rem)]">
+            <div dangerouslySetInnerHTML={{ __html: scriptFooter }} />
+          </div>
+        ) : null}
         
-        <div className="flex w-full justify-center border-t border-white/10 pt-[2rem]">
+        <div className="flex w-full flex-col items-center justify-center gap-2 border-t border-white/10 pt-[2rem]">
           <a
-            href="https://www.grupofarol.com/_files/ugd/e94f10_e87485b50cb64e7cb5f74180d1d9823f.pdf"
+            href="/RTIS2025_Farol.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="font-[var(--font-poppins)] text-[0.875rem] text-white/50 transition-colors hover:text-white"
           >
             RTIS 2025
           </a>
+          <a
+            href="#"
+            className="ot-sdk-show-settings font-[var(--font-poppins)] text-[0.875rem] text-white/50 transition-colors hover:text-white"
+          >
+            Cookie Settings
+          </a>
         </div>
       </div>
-
-      {scriptFooter ? (
-        <div dangerouslySetInnerHTML={{ __html: scriptFooter }} />
-      ) : null}
     </footer>
   );
 }
